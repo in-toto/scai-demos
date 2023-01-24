@@ -1,0 +1,11 @@
+{
+    "title": "Object Reference",
+    "description": "Generic (resolvable) reference to an object (SW artifact or metadata)."
+
+    "properties": {
+        "name": "<NAME>",
+        "digest": { "<ALGORITHM>": "VALUE", "...": "..." },
+        "locationURI": "<URI>", // resolveable URI, optional
+        "objectType": "<TYPE>" // optional
+    }
+}

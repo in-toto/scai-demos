@@ -1,0 +1,41 @@
+INFO: Instrumenting scai.report
+INFO: Instrumenting attr
+INFO: Instrumenting attr.converters
+INFO: Instrumenting attr._compat
+INFO: Instrumenting attr._make
+INFO: Instrumenting attr._config
+INFO: Instrumenting attr.setters
+INFO: Instrumenting attr.exceptions
+INFO: Instrumenting attr.filters
+INFO: Instrumenting attr.validators
+INFO: Instrumenting attr._cmp
+INFO: Instrumenting attr._funcs
+INFO: Instrumenting attr._version_info
+INFO: Instrumenting attr._next_gen
+INFO: Instrumenting securesystemslib.formats
+INFO: Instrumenting calendar
+INFO: Instrumenting securesystemslib.schema
+INFO: Instrumenting in_toto
+INFO: Instrumenting in_toto.log
+INFO: Instrumenting in_toto.settings
+INFO: Instrumenting in_toto.models
+INFO: Instrumenting in_toto.models.common
+INFO: Instrumenting scai.attribute_assertion
+INFO: Instrumenting scai.object_reference
+INFO: Using built-in libfuzzer
+WARNING: Failed to find function "__sanitizer_acquire_crash_state".
+WARNING: Failed to find function "__sanitizer_print_stack_trace".
+WARNING: Failed to find function "__sanitizer_set_death_callback".
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 4033311005
+INFO: A corpus is not provided, starting from an empty corpus
+#2      INITED exec/s: 0 rss: 40Mb
+WARNING: no interesting inputs were found so far. Is the code instrumented for coverage?
+This may also happen if the target rejected all inputs we tried so far
+#524288 pulse  corp: 1/1b lim: 5212 exec/s: 174762 rss: 40Mb
+#1048576        pulse  corp: 1/1b lim: 8192 exec/s: 104857 rss: 40Mb
+#2097152        pulse  corp: 1/1b lim: 8192 exec/s: 87381 rss: 40Mb
+#3904947        NEW    cov: 48 ft: 48 corp: 2/4b lim: 8192 exec/s: 86776 rss: 40Mb L: 3/3 MS: 5 ChangeByte-ChangeBit-CopyPart-CopyPart-InsertByte-
+#4194304        pulse  cov: 48 ft: 48 corp: 2/4b lim: 8192 exec/s: 82241 rss: 40Mb
+#8388608        pulse  cov: 48 ft: 48 corp: 2/4b lim: 8192 exec/s: 64527 rss: 40Mb
+Done 10000000 in 161 second(s)

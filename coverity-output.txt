@@ -1,0 +1,46 @@
+Coverity Static Analysis version 2022.3.1 on Linux 4.4.0-19041-Microsoft x86_64
+Internal version numbers: 09579d0e1a p-2022.3-push-62
+
+Using 8 workers as limited by CPU(s)
+Looking for translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing links for 17 translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing virtual overrides
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Resolving dataflow directives
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing callgraph
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Topologically sorting 43 functions
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Preparing for source code analysis
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Running Sigma analysis
+[STATUS] Computing node costs
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Running analysis
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Exporting summaries
+|0----------25-----------50----------75---------100|
+****************************************************
+Analysis summary report:
+------------------------
+Files analyzed                 : 10 Total
+    Python 3                   : 6
+    Text                       : 4
+Total LoC input to cov-analyze : 345
+Functions analyzed             : 43
+Paths analyzed                 : 109
+Time taken by analysis         : 00:00:14
+Defect occurrences found       : 0
+

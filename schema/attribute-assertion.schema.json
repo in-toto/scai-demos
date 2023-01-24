@@ -1,0 +1,11 @@
+{
+    "title": "SCAI Attribute Assertion",
+    "description": "Fine-grained attribute metadata about the SW supply chain."
+
+    "properties": {
+        "attribute": "<ATTRIBUTE>",
+        "target": { "$ref": "object-reference.schema.json" }, // optional
+        "conditions": { /*object */ }, // optional
+        "evidence": { "$ref": "object-reference.schema.json" } // optional
+    }
+}

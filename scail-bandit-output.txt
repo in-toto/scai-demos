@@ -1,0 +1,27 @@
+[main]	INFO	profile include tests: B405,B406,B309,B320,B308,B407,B401,B409,B310,B410,B302,B317,B304,B411,B324,B412,B316,B413,B319,B306,B305,B403,B325,B408,B314,B311,B301,B402,B318,B404,B315,B313,B303,B321,B323,B312
+[main]	INFO	profile exclude tests: B703,B601,B102,B108,B702,B606,B502,B504,B104,B101,B610,B609,B112,B201,B505,B603,B701,B103,B106,B611,B105,B501,B605,B607,B107,B506,B503,B507,B604,B110,B608,B602
+[main]	INFO	cli include tests: None
+[main]	INFO	cli exclude tests: None
+[main]	INFO	using config: ../ipas-bandit-config/ipas_default.config
+[main]	INFO	running on Python 3.6.9
+Run started:2022-11-14 16:17:20.588204
+
+Test results:
+	No issues identified.
+
+Code scanned:
+	Total lines of code: 731
+	Total lines skipped (#nosec): 0
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0.0
+		Low: 0.0
+		Medium: 0.0
+		High: 0.0
+	Total issues (by confidence):
+		Undefined: 0.0
+		Low: 0.0
+		Medium: 0.0
+		High: 0.0
+Files skipped (0):

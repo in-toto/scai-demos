@@ -1,0 +1,139 @@
+#!/usr/bin/env python3
+# Copyright 2021 Intel Corporation
+# SPDX-License-Identifier: Apache-2.0
+
+"""
+<Program Name>
+  scai-report
+
+<Author>
+ Marcela Melara <marcela.melara@intel.com>
+
+<Copyright>
+  See LICENSE for licensing information.
+
+<Purpose>
+  Command-line interface for generating ITE-9 SCAI Reports.
+"""
+
+import argparse
+import subprocess
+import json
+import os
+import attr
+
+from scai.report import Report, SCAI_REPORT_TYPE
+from scai.attribute_assertion import AttributeAssertion
+from scai.object_reference import ObjectReference
+from scai.utility import load_json_file, parse_pem_file
+
+from in_toto.runlib import record_artifacts_as_dict, in_toto_run
+
+def Main():
+    parser = argparse.ArgumentParser(allow_abbrev=False)
+
+    parser.add_argument('-i', '--input-artifacts', type=str, help='Filenames of input artifacts', nargs='+', required=True)
+    parser.add_argument('-o', '--output-artifacts', type=str, help='Filenames of output artifacts', nargs='+')
+    parser.add_argument('-a', '--attribute-assertions', help='Filename of JSON files for output artifact attribute assertions', nargs='+', type=str, required=True)
+    parser.add_argument('-p', '--producer-attributes', help='Filename of JSON files for producer attribute assertions', nargs='+', type=str)
+    parser.add_argument('-c', '--command', help='Command to invoke the tool', type=str, required=True)
+    parser.add_argument('--metadata-dir', help='Directory for searching/storing metadata files', type=str)
+    parser.add_argument('--artifact-dir', help='Directory for searching/storing input/output artifacts', type=str)
+    parser.add_argument('--pretty-print', help='Flag to pretty-print all json before storing', action='store_true')
+    
+    options = parser.parse_args()
+    
+    print('Generating SCAI Attribute Report for operation: %s' % options.command)
+
+    # assume all SCAI verifiable objects are in the same location
+    # still use list for compatibility with file util functions
+    metadata_dir = '.'
+    if options.metadata_dir:
+        metadata_dir = options.metadata_dir
+
+    # Execute the command and get the operation metadata
+    # in in-toto Link format
+    command = options.command.split(' ')
+    command_list = [os.path.expanduser(arg) if arg.startswith('~') else arg for arg in command]
+
+    intoto_link = in_toto_run('test', options.input_artifacts, options.output_artifacts, command_list, record_streams=True, base_path=options.artifact_dir)
+    intoto_link_dict = attr.asdict(intoto_link.signed)
+    intoto_link_dict['_type'] = 'https://in-toto.io/Link/v0.2'
+
+    # Generate the producer metadata for the SCAI Report
+    producer_metadata = {}
+    
+    # Load the producer attribute assertions
+    if options.producer_attributes:
+        producer_assertions_list = []
+        for a in options.producer_attributes:
+            assertion_dict = load_json_file(a, metadata_dir)
+            assertion = AttributeAssertion.read(assertion_dict)
+            del assertion_dict['_type']
+            producer_assertions_list.append(assertion_dict)
+
+        producer_metadata['attributes'] = producer_assertions_list
+    
+    # Load the subject attribute assertions
+    subject_assertions_list = []
+    for a in options.attribute_assertions:
+        assertion_dict = load_json_file(a, metadata_dir)
+        assertion = AttributeAssertion.read(assertion_dict)
+        subject_assertions_list.append(assertion_dict)
+    
+    scai_report = Report(subjectAttributes=subject_assertions_list, producer=producer_metadata)
+    scai_report_dict = attr.asdict(scai_report)
+    del scai_report_dict['_type']
+
+    # Write the SCAI metadata to file
+    # in-toto attestation format
+    statement = {} # inner in-toto attesation layer
+    statement['_type'] = 'https://in-toto.io/Statement/v0.1'
+    
+    # though in-toto supports bundling multiple subjects
+    # per statement, we want single-subject statements
+    for pname, pdigest in intoto_link_dict['products'].items():
+        subjects = [{'name': pname, 'digest': pdigest}]
+    
+        statement['subject'] = subjects
+        statement['predicateType'] = SCAI_REPORT_TYPE
+        statement['predicate'] = scai_report_dict
+        statement_json = json.dumps(statement)
+    
+        report_file = metadata_dir + '/' + pname + '-scai.st'
+
+        with open(report_file, 'w+') as rfile :
+            if options.pretty_print:
+                rfile.write(json.dumps(statement, indent=4))
+            else:
+                rfile.write(json.dumps(statement))
+
+        print('Wrote in-toto statement for SCAI predicate: %s' % report_file)
+
+    # Generate the ITE-9 in-toto Link statement for the command invocation
+    link_subjects = []
+    for pname, pdigest in intoto_link_dict['products'].items():
+        link_subjects.append({'name': pname, 'digest': pdigest})
+
+    del intoto_link_dict['products']
+
+    statement['subject'] = link_subjects
+    statement['predicateType'] = intoto_link_dict['_type']
+
+    del intoto_link_dict['_type']
+
+    statement['predicate'] = intoto_link_dict
+    statement_json = json.dumps(statement)
+    
+    report_file = metadata_dir + '/invocation-intoto.st'
+
+    with open(report_file, 'w+') as rfile :
+        if options.pretty_print:
+            rfile.write(json.dumps(statement, indent=4))
+        else:
+            rfile.write(json.dumps(statement))
+            
+    print('Wrote in-toto statement for Link predicate: %s' % report_file)
+    
+if __name__ == "__main__":
+    Main()

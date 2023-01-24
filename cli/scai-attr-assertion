@@ -1,0 +1,116 @@
+#!/usr/bin/env python
+# Copyright 2022 Intel Corporation
+# SPDX-License-Identifier: Apache-2.0
+
+"""
+<Program Name>
+  scai-attr-assertion
+
+<Author>
+ Marcela Melara <marcela.melara@intel.com>
+
+<Copyright>
+  See LICENSE for licensing information.
+
+<Purpose>
+  Command-line interface for generating ITE-9 SCAI Attribute Assertions.
+"""
+
+import argparse
+import subprocess
+import json
+import os
+import attr
+
+from scai.attribute_assertion import AttributeAssertion
+from scai.object_reference import ObjectReference
+from scai.utility import load_json_file
+
+from securesystemslib.util import get_file_hashes
+
+def Main():
+    parser = argparse.ArgumentParser(allow_abbrev=False)
+
+    parser.add_argument('-a', '--attribute', help='Attribute keyword', type=str, required=True)
+    parser.add_argument('-c', '--conditions', help='Conditions string (arbitrary JSON encoding)', type=json.loads)
+    parser.add_argument('-e', '--evidence', help='Filename of json-encoded evidence descriptor', type=str)
+    parser.add_argument('-t', '--target', help='Filename of target artifact', type=str)
+    parser.add_argument('--target-name', help='Name for target artifact', type=str)
+    parser.add_argument('--target-type', help='Type of target artifact', type=str)
+    parser.add_argument('--target-location', help='Location URI of target artifact', type=str)
+    parser.add_argument('-o', '--outfile', help='Filename to write out this assertion object', type=str, required=True)
+    parser.add_argument('--target-dir', help='Directory for searching target files', type=str)
+    parser.add_argument('--evidence-dir', help='Directory for searching evidence files', type=str)
+    parser.add_argument('--conditions-dir', help='Directory for searching conditions files', type=str)
+    parser.add_argument('--out-dir', help='Directory for storing generated files', type=str)
+    parser.add_argument('--pretty-print', help='Flag to pretty-print all json before storing', action='store_true')
+
+    options = parser.parse_args()
+
+    # Create assertion dict
+    assertion_dict = { "attribute": options.attribute }
+    
+    # Read conditions
+    if options.conditions:
+        assertion_dict['conditions'] = options.conditions # FIXME: this should be a file
+
+    # Read evidencee
+    if options.evidence:
+        evidence_dict = load_json_file(options.evidence, search_path=options.evidence_dir)
+
+        # this validates the obj ref format
+        evidence = ObjectReference.read(evidence_dict)
+        assertion_dict['evidence'] = evidence.to_dict()
+
+    # Create target reference (optional)
+    if options.target:
+        target_dict = '.'
+        if options.target_dict:
+            target_dict = options.target_dict
+            
+        target_file = target_dict + '/' + options.target
+        target_digest_dict = get_file_hashes(target_file)
+
+        target_dict = {}
+        target_dict['name'] = options.target
+        target_dict['digest'] = target_digest_dict
+        
+        if options.target_name:
+            target_dict['name'] = options.target_name
+
+        if options.target_location:
+            target_dict['locationURI'] = options.target_location
+
+        if options.target_type:
+            target_dict['objectType'] = options.target_type
+
+        # this validates the obj ref format
+        target = ObjectReference.read(target_dict)
+        
+        assertion_dict['target'] =  target.to_dict()
+
+    # this validates the assertion format
+    assertion = AttributeAssertion.read(assertion_dict)
+    assertion_dict = assertion.to_dict()
+
+    # Write out the assertions file
+    out_dir = '.'
+    if options.out_dir:
+        out_dir = options.out_dir
+
+    outfile = options.outfile
+    if not outfile.endswith('.json'):
+        outfile += '.json'
+
+    indent = 0
+    if options.pretty_print:
+        indent = 4
+
+    assertion_file = out_dir + '/' + outfile
+    with open(assertion_file, 'w+') as afile :
+        afile.write(json.dumps(assertion_dict, indent=indent))
+
+    print('Wrote attribute assertion to %s' % assertion_file)
+
+if __name__ == "__main__":
+    Main()

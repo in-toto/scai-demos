@@ -1,0 +1,21 @@
+{
+    "title": "SCAI Report for in-toto Attestation",
+    "description": "SCAI attribute metadata about an operation/step in the SW supply chain."
+
+    // Standard attestation fields
+    "_type": "https://in-toto.io/Statement/v0.1",
+    "subject": [{
+        "name": "<NAME>",
+        "digest": { "<ALGORITHM>": "<VALUE>" },
+        "locationURI": "<URI>" // recommended
+    }],
+
+    // info about subject's attributes
+    "predicateType": "scai/attribute-assertion/v0.1",
+    "predicate": {
+        "subjectAttributes": [{ "$ref": "attribute-assertion.schema.json" }, ... ],
+        "producer": {
+            "attributes": [{ "$ref": "attribute-assertion.schema.json" }, ... ], // optional
+        }
+    }
+}
