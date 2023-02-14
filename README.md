@@ -11,25 +11,23 @@ seeking to capture more granular information about the attributes and behavior o
 produce. That is, SCAI assumes that implementers will have appropriate processes and tooling in place for
 capturing other types of software supply chain metadata, which can be extended to add support for SCAI.
 
-For more details and examples, see the full [specification document]().
+## Specification
 
-## Schema
+The [SCAI specification] is hosted under the [in-toto Attestation Framework]
+as an attestation predicate.
 
-SCAI provides pluggable [schema](https://github.com/intel-sandbox/mmelara.supply-chain-attribute-integrity/tree/main/schema) to be used in conjunction
-with existing software supply chain metadata schema.
-
-Currently supported frameworks:
-* [in-toto attestation](https://github.com/in-toto/attestation/tree/main/spec)
+This repo also provides [JSON schema](schema/) that can be used in conjunction
+with other software supply chain metadata.
 
 ## Documentation
 
-All documentation can be found under [docs/](https://github.com/intel-sandbox/mmelara.supply-chain-attribute-integrity/tree/main/docs).
+All documentation can be found under [docs/](docs/).
 
 ## Usage
 
 The general flow is to first generate one or more Attribute
 Assertions and then generate a SCAI Report. The
-[examples](https://github.com/intel-sandbox/mmelara.supply-chain-attribute-integrity/tree/main/examples) show
+[examples](examples/) show
 how SCAI metadata is generated in a few different use cases.
 
 Note, that the CLI tools do not current generate **signed**
@@ -68,3 +66,6 @@ To generate a basic SCAI Report with in-toto Link metadata:
 ```
 
 For a full list of CLI tool options, invoke with the `-h` option.
+
+[SCAI specification]: https://github.com/in-toto/attestation/blob/main/spec/predicates/scai.md
+[in-toto Attestation Framework]: https://github.com/in-toto/attestation/tree/main/spec
