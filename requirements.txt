@@ -1,2 +1,2 @@
 # scai library python requirements
-in-toto
+in-toto-attestation>=0.9.1
