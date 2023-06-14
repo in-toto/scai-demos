@@ -27,11 +27,9 @@ if sys.version_info[0] < 3:
 from setuptools import setup, find_packages, Extension
 
 setup(name='scai',
-      version='0.1',
+      version='0.2',
       description='Data objects library for SCAI',
       author='Intel Corporation',
       packages=find_packages(),
-      install_requires=[],
-      namespace_packages=['scai'],
-      py_modules=['report', 'attribute_assertion', 'object_reference', 'utility', 'reportlib']
+      py_modules=['scai', 'utility']
 )
