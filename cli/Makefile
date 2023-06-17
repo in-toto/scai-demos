@@ -1,4 +1,4 @@
-# Copyright 2020 Intel Corporation
+# Copyright 2023 Intel Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,7 +25,8 @@ $(PYTHON_DIR) :
 	. $(abspath $(DSTDIR)/bin/activate) && pip install --upgrade pip
 	. $(abspath $(DSTDIR)/bin/activate) && pip install --upgrade wheel
 	. $(abspath $(DSTDIR)/bin/activate) && pip install --upgrade in-toto
-	. $(abspath $(DSTDIR)/bin/activate) && pip install ../python
+	. $(abspath $(DSTDIR)/bin/activate) && pip install --upgrade ../../in-toto.attestation/python
+	. $(abspath $(DSTDIR)/bin/activate) && pip install --upgrade ../python
 
 $(DSTDIR) :
 	@echo CREATE SCAI VENV DIRECTORY $(DSTDIR)
