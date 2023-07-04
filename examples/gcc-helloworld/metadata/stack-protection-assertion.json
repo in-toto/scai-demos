@@ -1,0 +1,6 @@
+{
+    "attribute": "HAS_STACK_PROTECTION",
+    "conditions": {
+        "flags": "-fstack-protector*"
+    }
+}

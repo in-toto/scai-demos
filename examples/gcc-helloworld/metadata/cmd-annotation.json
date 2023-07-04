@@ -1,0 +1,2 @@
+{"command": "gcc -fstack-protector -o hello-world hello-world.c"}
+
