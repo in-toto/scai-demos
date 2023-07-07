@@ -21,8 +21,8 @@ import json
 import os
 import sys
 
-from scai.utility import load_json_file
-from scai.v0.scai import AttributeAssertion
+from scai_generator.utility import load_json_file
+from in_toto_attestation.predicates.scai.v0.scai import AttributeAssertion
 import in_toto_attestation.v1.resource_descriptor_pb2 as rdpb
 from in_toto_attestation.v1.resource_descriptor import ResourceDescriptor
 
@@ -47,9 +47,10 @@ def Main():
     options = parser.parse_args()
 
     # Create target reference
-    target_dict = None
+    target_rd = None
     if options.target:
         target_dict = load_json_file(options.target, search_path=options.target_dir)
+        target_rd = pb_json.ParseDict(target_dict, rdpb.ResourceDescriptor())
 
     # Read conditions
     conditions_dict = None
@@ -57,11 +58,12 @@ def Main():
         conditions_dict = load_json_file(options.conditions, search_path=options.conditions_dir)
 
     # Read evidence
-    evidence_dict = None
+    evidence_rd = None
     if options.evidence:
-        evidence_dict = load_json_file(options.evidence, search_path=options.evidence_dir)    
+        evidence_dict = load_json_file(options.evidence, search_path=options.evidence_dir)
+        evidence_rd = pb_json.ParseDict(evidence_dict, rdpb.ResourceDescriptor())
 
-    assertion = AttributeAssertion(options.attribute, target=target_dict, conditions=conditions_dict, evidence=evidence_dict)
+    assertion = AttributeAssertion(options.attribute, target=target_rd, conditions=conditions_dict, evidence=evidence_rd)
 
     # validate the assertion format, including resource descriptors
     try:

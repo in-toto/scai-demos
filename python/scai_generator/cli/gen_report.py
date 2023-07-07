@@ -21,8 +21,8 @@ import json
 import os
 import sys
 
-from scai.utility import load_json_file
-from scai.v0.scai import AttributeReport, SCAI_PREDICATE_TYPE, SCAI_PREDICATE_VERSION
+from scai_generator.utility import load_json_file
+from in_toto_attestation.predicates.scai.v0.scai import AttributeReport, SCAI_PREDICATE_TYPE, SCAI_PREDICATE_VERSION
 import in_toto_attestation.predicates.scai.v0.scai_pb2 as scaipb
 import in_toto_attestation.v1.resource_descriptor_pb2 as rdpb
 from in_toto_attestation.v1.statement import Statement
