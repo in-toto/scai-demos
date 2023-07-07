@@ -26,10 +26,16 @@ if sys.version_info[0] < 3:
 
 from setuptools import setup, find_packages, Extension
 
-setup(name='scai',
+setup(name='scai-generator',
       version='0.2',
-      description='Data objects library for SCAI',
+      description='SCAI metadata generation tools',
       author='Intel Corporation',
       packages=find_packages(),
-      py_modules=['scai', 'utility']
+      entry_points = {
+          'console_scripts': [
+              'scai-attr-assertion = scai_generator.cli.gen_attr_assertion:Main',
+              'scai-gen-resource-desc = scai_generator.cli.gen_resource_desc:Main',
+              'scai-report = scai_generator.cli.gen_report:Main'
+          ]
+      }
 )

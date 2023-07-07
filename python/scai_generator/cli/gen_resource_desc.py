@@ -20,7 +20,7 @@ import argparse
 import json
 import os
 
-from scai.utility import load_json_file
+from scai_generator.utility import load_json_file
 from in_toto_attestation.v1.resource_descriptor import ResourceDescriptor
 
 from securesystemslib.util import get_file_hashes
