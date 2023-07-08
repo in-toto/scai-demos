@@ -17,7 +17,7 @@ VENVDIR ?= scai-venv
 PY_VERSION=${shell python3 --version | sed 's/Python \(3\.[0-9]\).*/\1/'}
 PYTHON_DIR=$(VENVDIR)/lib/python$(PY_VERSION)/site-packages/
 
-$(PYTHON_DIR) :
+$(PYTHON_DIR):
 	@echo INSTALL SCAI API
 	python3 -m venv $(VENVDIR)
 	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade pip
@@ -26,7 +26,7 @@ $(PYTHON_DIR) :
 	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade ../in-toto.attestation/python
 	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade ./python
 
-$(VENVDIR) :
+$(VENVDIR):
 	@echo CREATE SCAI VENV DIRECTORY $(VENVDIR)
 	mkdir -p $(VENVDIR)
 
@@ -34,7 +34,11 @@ venv: $(VENVDIR) $(PYTHON_DIR)
 
 clean:
 	@echo REMOVE SCAI VENV AND PYTHON LIB DIRS
-	@rm -rf $(VENVDIR) __pycache__
-	@cd ./python; rm -rf build dist *.egg-info
+	rm -rf $(VENVDIR) __pycache__
+	cd ./python; rm -rf build dist *.egg-info
 
-.phony : clean venv
+test: venv
+	@echo TESTING WITH GCC-HELLOWORLD EXAMPLE
+	./examples/gcc-helloworld/run-example.sh
+
+.phony: clean test venv

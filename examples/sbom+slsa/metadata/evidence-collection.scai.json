@@ -1,0 +1,36 @@
+{
+    "_type": "https://in-toto.io/Statement/v1",
+    "subject": [
+        {
+            "name": "pdo_client_wawaka",
+            "digest": {
+                "sha256": "9b151e8b47a372bb686a441349d981ebf38951d70c4e7bf4669672651da7d33e"
+            }
+        }
+    ],
+    "predicateType": "https://in-toto.io/attestation/scai/attribute-report/v0.2",
+    "predicate": {
+        "attributes": [
+            {
+                "evidence": {
+                    "mediaType": "application/spdx+json",
+                    "digest": {
+                        "sha256": "911d4365b61ba7ace55f7333b2c638caca4b811ee73da5beb28b9ecbbd22ca78"
+                    },
+                    "downloadLocation": "https://github.com/marcelamelara/private-data-objects/suites/14359811861/artifacts/808758122"
+                },
+                "attribute": "HasSBOM"
+            },
+            {
+                "evidence": {
+                    "mediaType": "application/x.dsse+jsonl",
+                    "digest": {
+                        "sha256": "ea4d1e56e739f26a451c095b9fb40a353b3e73ea1778fdddafe13562e81bd745"
+                    },
+                    "downloadLocation": "https://github.com/marcelamelara/private-data-objects/suites/14359811861/artifacts/808758121"
+                },
+                "attribute": "HasSLSA"
+            }
+        ]
+    }
+}
