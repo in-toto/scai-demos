@@ -1,0 +1,10 @@
+{
+    "attribute": "HasSLSA",
+    "evidence": {
+        "digest": {
+            "sha256": "ea4d1e56e739f26a451c095b9fb40a353b3e73ea1778fdddafe13562e81bd745"
+        },
+        "downloadLocation": "https://github.com/marcelamelara/private-data-objects/suites/14359811861/artifacts/808758121",
+        "mediaType": "application/x.dsse+jsonl"
+    }
+}
