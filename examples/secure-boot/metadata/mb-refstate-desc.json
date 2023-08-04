@@ -1,0 +1,7 @@
+{
+"name": "measured boot reference state",
+"digest": {
+"sha256": "7f13e3ce0c34086f3a4e4aaccab8b42eddd0a8e8aa5efe817905f93522e17739"
+},
+"mediaType": "application/json"
+}
