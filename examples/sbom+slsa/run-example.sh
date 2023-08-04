@@ -14,9 +14,9 @@ mkdir -p ${EXAMPLE_DIR}/metadata
 
 source ${SCAI_DIR}/scai-venv/bin/activate
 
-SBOM_URL="https://github.com/marcelamelara/private-data-objects/suites/14359811861/artifacts/808758122"
+SBOM_URL="https://github.com/marcelamelara/private-data-objects/suites/14743599027/artifacts/838001247"
 
-PROVENANCE_URL="https://github.com/marcelamelara/private-data-objects/suites/14359811861/artifacts/808758121"
+PROVENANCE_URL="https://github.com/marcelamelara/private-data-objects/suites/14743599027/artifacts/838001246"
 
 echo GENERATE PDO CLIENT CONTAINER SBOM DESCRIPTOR
 
