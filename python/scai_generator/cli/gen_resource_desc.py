@@ -51,21 +51,23 @@ def Main():
         exit(-1)
 
     # Generate the digest, if requested
-    resource_file = os.path.join(options.resource_dir, options.resource_file)
+    resource_file_path = None
+    if options.resource_file:
+        resource_file_path = os.path.join(options.resource_dir, options.resource_file)
     
     resource_digest_set = {}
-    if options.digest:
-        resource_digest_set = get_file_hashes(resource_file)
+    if options.digest and resource_file_path:
+        resource_digest_set = get_file_hashes(resource_file_path)
 
     resource_bytes = bytes()
-    if options.content:
-        with open(resource_file, 'rb') as f:
+    if options.content and resource_file_path:
+        with open(resource_file_path, 'rb') as f:
             resource_bytes = f.read()
 
     annotations_dict = None
     if options.annotations:
         annotations_dict = load_json_file(options.annotations, search_path=options.annotation_dir)
-            
+
     rd = ResourceDescriptor(name=options.name, uri=options.uri, digest=resource_digest_set, content=resource_bytes, download_location=options.download_location, media_type=options.media_type, annotations=annotations_dict)
 
     # validate the resource descriptor format

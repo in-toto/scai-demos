@@ -1,10 +1,7 @@
 {
-    "attribute": "TPM_REFERENCE_STATE",
+    "attribute": "TPM2.0_REFERENCE_STATE",
     "target": {
-        "name": "measured boot reference state",
-        "digest": {
-            "sha256": "7f13e3ce0c34086f3a4e4aaccab8b42eddd0a8e8aa5efe817905f93522e17739"
-        },
-        "mediaType": "application/json"
+        "name": "localhost",
+        "uri": "http://127.0.0.1"
     }
 }
