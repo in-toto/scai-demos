@@ -1,0 +1,30 @@
+{
+    "_type": "https://in-toto.io/Statement/v1",
+    "subject": [
+        {
+            "name": "hello-world",
+            "digest": {
+                "sha256": "4ad979bf2f60aa07011b974094a415e05d238d7507f8c65568a76c6c291a6b62"
+            }
+        }
+    ],
+    "predicateType": "https://in-toto.io/attestation/scai/attribute-report/v0.2",
+    "predicate": {
+        "attributes": [
+            {
+                "target": {
+                    "uri": "http://127.0.0.1",
+                    "name": "localhost"
+                },
+                "evidence": {
+                    "mediaType": "application/json",
+                    "digest": {
+                        "sha256": "0dc21d96a4f6f86f015b498f979bb1ce0daa1cc19903d9d1109a0ef4819f6acd"
+                    },
+                    "name": "secure boot quote"
+                },
+                "attribute": "TAMPER-EVIDENT BUILD PLATFORM"
+            }
+        ]
+    }
+}
