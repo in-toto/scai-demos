@@ -1,0 +1,14 @@
+module scai-gen
+
+go 1.20
+
+require (
+	github.com/in-toto/attestation v0.1.1-0.20230801211403-5944353df766
+	github.com/spf13/cobra v1.7.0
+	google.golang.org/protobuf v1.31.0
+)
+
+require (
+	github.com/inconshreveable/mousetrap v1.1.0 // indirect
+	github.com/spf13/pflag v1.0.5 // indirect
+)
