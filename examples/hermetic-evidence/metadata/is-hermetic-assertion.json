@@ -1,0 +1,22 @@
+{
+    "attribute": "IsHermeticBuild",
+    "target": {
+        "name": "pdo_client_wawaka.provenance.json",
+        "digest": {
+            "sha256": "d094023e47dadedb5591d70bf203b967daa1e0784b29135053e410e6627ab261"
+        },
+        "downloadLocation": "https://github.com/marcelamelara/private-data-objects/suites/15001861846/artifacts/856214822",
+        "mediaType": "application/vnd.in-toto.provenance+json"
+    },
+    "evidence": {
+        "name": "strace.log",
+        "digest": {
+            "sha256": "1fbd9b1a3b867657666edf7ac1f17a3cad6ff691364ab46848ca5f49720688a8"
+        },
+        "downloadLocation": "https://github.com/marcelamelara/private-data-objects/suites/15001861846/artifacts/856214824",
+        "mediaType": "text/plain",
+        "annotations": {
+            "expectedResult": "fail"
+        }
+    }
+}

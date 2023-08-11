@@ -27,6 +27,13 @@ Read the [usage doc] for instructions on setup and tool invocation.
 We encourage you to gain a basic understanding of the [SCAI specification]
 before using the scai-generator CLI tools in this repo.
 
+## Disclaimer
+
+While the tools in this repo are conformant to the
+[in-toto Attestation Framework], they do not generate **authenticated** SCAI
+attestations. The example use cases in this repo are only provided for
+illustrative purposes.
+
 [in-toto Attestation Framework]: https://github.com/in-toto/attestation/tree/main/spec
 [intro doc]: docs/intro.md
 [usage doc]: docs/usage.md
