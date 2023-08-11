@@ -4,6 +4,7 @@ This directory contains examples for SCAI use cases:
 
 * [Binary attributes](./gcc-helloworld)
 * [Build process attributes](./sbom+slsa)
+* [Build environment attributes](./hermetic-evidence)
 * [Build platform attributes](./secure-boot)
 
 ## Usage
@@ -16,5 +17,8 @@ Each directory contains a script to run the example:
 ```
 
 The resulting metadata will be stored in the respective `metadata/` directory.
+
+:: warn :: The in-toto attestations generated for these examples are not
+digitally signed, and are only provided for demo purposes.
 
 [setup instructions]: ../docs/usage.md
