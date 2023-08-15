@@ -6,6 +6,7 @@ This directory contains examples for SCAI use cases:
 * [Build process attributes](./sbom+slsa)
 * [Build environment attributes](./hermetic-evidence)
 * [Build platform attributes](./secure-boot)
+* [Dependency vulnerability attributes](./vuln-scan)
 
 ## Usage
 
