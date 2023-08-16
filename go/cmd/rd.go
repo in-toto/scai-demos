@@ -1,65 +1,46 @@
 package cmd
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"os"
+	"strings"
+	"scai-gen/util"
 
-	itpb "github.com/in-toto/attestation/go/v1"
-	"google.golang.org/protobuf/encoding/protojson"
+	ita "github.com/in-toto/attestation/go/v1"
 	"github.com/spf13/cobra"
 )
 
 var rdCmd = &cobra.Command{
 	Use:   "rd",
-	Short: "Generates an in-toto Resource Descriptor file",
-	RunE: genResourceDesc,
+	Short: "Generate a JSON-encoded in-toto Resource Descriptor",
+}
+
+var rdFileCmd = &cobra.Command{
+	Use:   "file",
+	Args:  cobra.ExactArgs(1),
+	Short: "Generate a JSON-encoded in-toto Resource Descriptor from local file(s)",
+	RunE:  genRdFromFile,
 }
 
 var (
-	name             string
-	uri              string
-	digest           bool
-	content          bool
+	withContent          bool
 	downloadLocation string
 	mediaType        string
-	resourceFile     string
 	outFile          string
 )
 
 func init() {
-	rdCmd.Flags().StringVarP(
-		&name,
-		"name",
-		"n",
-		"",
-		"The name of the resource in the RD",
-	)
-
-	rdCmd.Flags().StringVarP(
-		&uri,
-		"uri",
-		"u",
-		"",
-		"The URI of the resource in the RD",
-	)
-
-	rdCmd.Flags().BoolVarP(
-		&digest,
-		"digest",
-		"d",
-		false,
-		"Flag to generate the SHA256 hash of the resource",
-	)
-
-	rdCmd.Flags().BoolVarP(
-		&content,
+	rdFileCmd.Flags().BoolVarP(
+		&withContent,
 		"content",
 		"c",
 		false,
-		"Flag to include the content of the resource",
+		"Flag to include the content of the file",
 	)
 
-	rdCmd.Flags().StringVarP(
+	rdFileCmd.Flags().StringVarP(
 		&downloadLocation,
 		"download-location",
 		"l",
@@ -67,7 +48,7 @@ func init() {
 		"The download location of the resource (if different from the URI)",
 	)
 
-	rdCmd.Flags().StringVarP(
+	rdFileCmd.Flags().StringVarP(
 		&mediaType,
 		"media-type",
 		"t",
@@ -75,58 +56,51 @@ func init() {
 		"The media type of the resource",
 	)
 
-	rdCmd.Flags().StringVarP(
-		&resourceFile,
-		"resource-file",
-		"f",
-		"",
-		"Filename of the resource to be described",
-	)
-
-	rdCmd.Flags().StringVarP(
+	rdCmd.PersistentFlags().StringVarP(
 		&outFile,
 		"out-file",
 		"o",
 		"",
 		"Filename to write out the RD object",
 	)
-	rdCmd.MarkFlagRequired("out-file")
+	rdCmd.MarkPersistentFlagRequired("out-file")
+
+	rdCmd.AddCommand(rdFileCmd)
 }
 
-func genResourceDesc(cmd *cobra.Command, args []string) error {
+func genSHA256(bytes []byte) []byte {
+	h := sha256.New()
+	h.Write(bytes)
+	return h.Sum(nil)
+}
 
-	if len(name) == 0 && len(uri) == 0 && !digest {
-		return fmt.Errorf("Need at least one of name, URI or digest for a valid in-toto resource descriptor")
-	}
+func genRdFromFile(cmd *cobra.Command, args []string) error {
 
-	/*
-	contents := nil
-	if len(resourceFile) > 0 {
-		contents, err := os.ReadFile(resourceFile)
-	}
-
+	filename := args[0]
+	fileBytes, err := os.ReadFile(filename)
 	if err != nil {
-		fmt.Println("Error reading file", err)
-		return err
+		return fmt.Errorf("Error reading resource file", err)
 	}
-	*/
 
-	rd := &itpb.ResourceDescriptor{
-		Name: name,
-		Uri: uri,
+	var content []byte
+	if withContent {
+		content = fileBytes
+	}
+
+	sha256Digest := hex.EncodeToString(genSHA256(fileBytes))
+	
+	rd := &ita.ResourceDescriptor{
+		Name: filename,
+		Digest: map[string]string{"sha256": strings.ToLower(sha256Digest)},
+		Content: content,
 		DownloadLocation: downloadLocation,
 		MediaType: mediaType,
 	}
 
-	err := rd.Validate()
+	err = rd.Validate()
 	if err != nil {
 		return fmt.Errorf("Invalid resource descriptor", err)
 	}
-
-	rdBytes, err := protojson.Marshal(rd)
-	if err != nil {
-		return err
-	}
-
-	return os.WriteFile(outFile, rdBytes, 0644)
+	
+	return util.WritePbToFile(rd, outFile)
 }

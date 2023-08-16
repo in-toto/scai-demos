@@ -5,16 +5,18 @@
 Assuming you have Go version 1.20 or higher installed, run:
 
 ```bash
-cd cmd && go build
+go build
 go install
 ```
 
 ## Usage
 
-To generate an in-toto [Resource Descriptor]:
+To generate an in-toto [Resource Descriptor] for a local file:
 
 ```bash
-scai-gen rd -n <name> -u <uri> -d -o <out-file>
+scai-gen rd file -o <out-file> <filename> 
 ```
+
+Run `scai-gen help` for a full list of command-line options.
 
 [Resource Descriptor]: https://github.com/in-toto/attestation/blob/main/spec/v1/resource_descriptor.md
