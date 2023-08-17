@@ -1,5 +1,5 @@
 setup:
-	go get github.com/in-toto/attestation@5944353df766213a4e3490dd9ec2d28a6ec2ee4a
+	go get github.com/in-toto/attestation@858b9917479327f2d1e88a08394a1534ac1f892d
 
 .phony: setup
 

@@ -1,5 +1,7 @@
 # scai-gen Go CLI
 
+This package provides a Go CLI for generating in-toto compatible [SCAI] metadata.
+
 ## Setup
 
 Assuming you have Go version 1.20 or higher installed, run:
@@ -29,6 +31,23 @@ Remote resource or service:
 scai-gen rd remote -o <out-file> [-a <hash algorithm> -d <digest>] [-n <name>] <resource URI> 
 ```
 
-Run `scai-gen help` for a full list of command-line options.
+### Generate a SCAI Attribute Assertion
 
+```bash
+scai-gen assert -o <out-file> [-e <evidence RD filename>] <attribute> 
+```
+
+Run `scai-gen assert help` for a full list of command-line options.
+
+### Generate a SCAI Attribute Report
+
+```bash
+scai-gen report -o <out-file> [-e <evidence RD filename>] <attribute assertion file1> [<attribute assertion file2> ...]
+```
+
+Run `scai-gen report help` for a full list of command-line options.
+
+[Attribute Assertion]: https://github.com/in-toto/attestation/blob/main/spec/predictaes/scai.md#model
+[Attribute Report]: https://github.com/in-toto/attestation/blob/main/spec/predicates/scai.md#schema
 [Resource Descriptor]: https://github.com/in-toto/attestation/blob/main/spec/v1/resource_descriptor.md
+[SCAI]: https://github.com/in-toto/attestation/blob/main/spec/predicates/scai.md

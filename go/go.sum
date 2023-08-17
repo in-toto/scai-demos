@@ -3,8 +3,8 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/golang/protobuf v1.5.0/go.mod h1:FsONVRAS9T7sI+LIUmWTfcYkHO4aIWwzhcaSAoJOfIk=
 github.com/google/go-cmp v0.5.5 h1:Khx7svrCpmxxtHBq5j2mp/xVjsi8hQMfNLvJFAlrGgU=
 github.com/google/go-cmp v0.5.5/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/gNBxE=
-github.com/in-toto/attestation v0.1.1-0.20230801211403-5944353df766 h1:L3Htjxh5B6KsP2p9YcBGnlfYcaSmaqXblYQ2nG1PLRE=
-github.com/in-toto/attestation v0.1.1-0.20230801211403-5944353df766/go.mod h1:hCR5COCuENh5+VfojEkJnt7caOymbEgvyZdKifD6pOw=
+github.com/in-toto/attestation v0.1.1-0.20230815115951-858b99174793 h1:gt+nMMQ4HzkrnXkdKgUGePvaWKRvuKgvpLNPwykN5Po=
+github.com/in-toto/attestation v0.1.1-0.20230815115951-858b99174793/go.mod h1:hCR5COCuENh5+VfojEkJnt7caOymbEgvyZdKifD6pOw=
 github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=
 github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

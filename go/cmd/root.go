@@ -12,8 +12,21 @@ var rootCmd = &cobra.Command{
 	Short: "A CLI tool for generating SCAI metadata",
 }
 
+var outFile string
+
 func init() {
+	rootCmd.PersistentFlags().StringVarP(
+		&outFile,
+		"out-file",
+		"o",
+		"",
+		"Filename to write out the JSON-encoded object",
+	)
+	rootCmd.MarkPersistentFlagRequired("out-file")
+	
 	rootCmd.AddCommand(rdCmd)
+	rootCmd.AddCommand(assertCmd)
+	rootCmd.AddCommand(reportCmd)
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

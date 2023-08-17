@@ -37,21 +37,11 @@ var (
 	hashAlg          string
 	mediaType        string
 	name             string
-	outFile          string
 	uri              string
 	withContent      bool
 )
 
 func init() {
-	rdCmd.PersistentFlags().StringVarP(
-		&outFile,
-		"out-file",
-		"o",
-		"",
-		"Filename to write out the RD object",
-	)
-	rdCmd.MarkPersistentFlagRequired("out-file")
-
 	rdCmd.AddCommand(rdFileCmd)
 	rdCmd.AddCommand(rdRemoteCmd)
 }
@@ -136,7 +126,7 @@ func genRdFromFile(cmd *cobra.Command, args []string) error {
 	filename := args[0]
 	fileBytes, err := os.ReadFile(filename)
 	if err != nil {
-		return fmt.Errorf("Error reading resource file", err)
+		return fmt.Errorf("Error reading resource file: %w", err)
 	}
 
 	var content []byte
@@ -157,7 +147,7 @@ func genRdFromFile(cmd *cobra.Command, args []string) error {
 
 	err = rd.Validate()
 	if err != nil {
-		return fmt.Errorf("Invalid resource descriptor", err)
+		return fmt.Errorf("Invalid resource descriptor: %w", err)
 	}
 	
 	return util.WritePbToFile(rd, outFile)
@@ -173,7 +163,7 @@ func genRdForRemote(cmd *cobra.Command, args []string) error {
 		// https://github.com/in-toto/attestation/blob/main/spec/v1/digest_set.md
 		_, err := hex.DecodeString(digest)
 		if err != nil {
-			return fmt.Errorf("Hash is not valid hex-encoded string", err)
+			return fmt.Errorf("Digest is not valid hex-encoded string: %w", err)
 		}
 		
 		// we can assume that we have both variables set at this point
@@ -189,7 +179,7 @@ func genRdForRemote(cmd *cobra.Command, args []string) error {
 
 	err := rd.Validate()
 	if err != nil {
-		return fmt.Errorf("Invalid resource descriptor", err)
+		return fmt.Errorf("Invalid resource descriptor: %w", err)
 	}
 	
 	return util.WritePbToFile(rd, outFile)
