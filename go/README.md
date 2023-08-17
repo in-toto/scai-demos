@@ -13,7 +13,7 @@ go install
 
 ## Usage
 
-scai-gen can be used to generate JSON encoded in-toto [Resource Descriptor]s,
+scai-gen can be used to generate JSON encoded in-toto [Resource Descriptors],
 SCAI [Attribute Assertions], and SCAI [Attribute Reports].
 
 
@@ -47,7 +47,7 @@ scai-gen report -o <out-file> [-e <evidence RD filename>] <attribute assertion f
 
 Run `scai-gen report help` for a full list of command-line options.
 
-[Attribute Assertion]: https://github.com/in-toto/attestation/blob/main/spec/predictaes/scai.md#model
-[Attribute Report]: https://github.com/in-toto/attestation/blob/main/spec/predicates/scai.md#schema
-[Resource Descriptor]: https://github.com/in-toto/attestation/blob/main/spec/v1/resource_descriptor.md
+[Attribute Assertions]: https://github.com/in-toto/attestation/blob/main/protos/in_toto_attestation/predicates/scai/v0/scai.proto#L16
+[Attribute Reports]: https://github.com/in-toto/attestation/blob/main/protos/in_toto_attestation/predicates/scai/v0/scai.proto#L28
+[Resource Descriptors]: https://github.com/in-toto/attestation/blob/main/spec/v1/resource_descriptor.md
 [SCAI]: https://github.com/in-toto/attestation/blob/main/spec/predicates/scai.md

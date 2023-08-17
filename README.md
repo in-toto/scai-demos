@@ -12,9 +12,6 @@ This repo provides CLI tools for automatically generating valid,
 in-toto compatible SCAI metadata, as well as example use cases for SCAI in
 [examples](examples/).
 
-This repo also contains [JSON schema](schema/) that can be used in conjunction
-with other software supply chain metadata.
-
 The official [SCAI specification] is hosted under the
 [in-toto Attestation Framework] as an attestation predicate.
 
@@ -22,7 +19,8 @@ All documentation can be found under [docs/](docs/).
 
 ## Usage
 
-Read the [usage doc] for instructions on setup and tool invocation.
+Read the [usage doc] for instructions on setup and tool invocation
+for Python and Go environments.
 
 We encourage you to gain a basic understanding of the [SCAI specification]
 before using the scai-generator CLI tools in this repo.
