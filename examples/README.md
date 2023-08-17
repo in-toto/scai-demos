@@ -11,9 +11,16 @@ This directory contains examples for SCAI use cases:
 
 Before running any example, make sure to follow the [setup instructions].
 
-Each directory contains a script to run the example:
+Each directory contains a script to run the Python example:
+
 ```bash
 ./run-example.sh
+```
+
+And to run the Go example:
+
+```bash
+./run-go-example.sh
 ```
 
 The resulting metadata will be stored in the respective `metadata/` directory.

@@ -48,6 +48,14 @@ func init() {
 
 func init() {
 	rdFileCmd.Flags().StringVarP(
+		&name,
+		"name",
+		"n",
+		"",
+		"A name for the local file",
+	)
+	
+	rdFileCmd.Flags().StringVarP(
 		&uri,
 		"uri",
 		"u",
@@ -135,9 +143,14 @@ func genRdFromFile(cmd *cobra.Command, args []string) error {
 	}
 
 	sha256Digest := hex.EncodeToString(genSHA256(fileBytes))
+
+	rdName := filename
+	if len(name) > 0 {
+		rdName = name
+	}
 	
 	rd := &ita.ResourceDescriptor{
-		Name: filename,
+		Name: rdName,
 		Uri: uri,
 		Digest: map[string]string{"sha256": strings.ToLower(sha256Digest)},
 		Content: content,

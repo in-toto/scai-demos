@@ -4,7 +4,7 @@
         {
             "name": "hello-world",
             "digest": {
-                "sha256": "4ad979bf2f60aa07011b974094a415e05d238d7507f8c65568a76c6c291a6b62"
+                "sha256": "0b222de8bcb1ea30807f1a4d733108e96de4512b689da8c5f371ac8a572e9271"
             }
         }
     ],
@@ -12,13 +12,13 @@
     "predicate": {
         "producer": {
             "digest": {
-                "sha256": "4be68bc9639b152a2fd43f4675d6a67bf81e07bbb7b9974833bd2678f530464a"
+                "sha256": "fb60c5945ce785d0cb2ef0303dac5249f25bd0d0324317a0734aae6aa24f609b"
             },
             "annotations": {
                 "command": "gcc -fstack-protector -o hello-world hello-world.c"
             },
             "uri": "file://usr/bin/gcc",
-            "name": "gcc (Ubuntu 11.3.0-1ubuntu1~22.04.1) 11.3.0"
+            "name": "gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0"
         },
         "attributes": [
             {
