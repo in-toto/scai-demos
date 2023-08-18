@@ -4,6 +4,7 @@ This directory contains examples for SCAI use cases:
 
 * [Binary attributes](./gcc-helloworld)
 * [Build process attributes](./sbom+slsa)
+* [Build platform attributes](./secure-boot)
 
 ## Usage
 
