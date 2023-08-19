@@ -33,6 +33,12 @@ echo GENERATE HAS-SLSA SCAI ATTRIBUTE ASSERTION
 
 scai-gen assert -e ${OUTDIR}/slsa-desc.json -o ${OUTDIR}/has-slsa-assertion.json "HasSLSA"
 
+echo GENERATE PDO CLIENT CONTAINER IMAGE DESCRIPTOR
+
+DOCKER_IMG_HASH="f2d58a9a85dbc80fcd6c52964c9b24b2dce8f6e6e1cdd65c48e8d109dde7f0e4"
+
+scai-gen rd remote -n "pdo_client_wawaka" -g "sha256" -d ${DOCKER_IMG_HASH} -o ${OUTDIR}/container-img-desc.json "example:pdo_client"
+
 echo GENERATE SCAI REPORT FOR CONTAINER EVIDENCE COLLECTION
 
-scai-gen report -s ${EXAMPLE_DIR}/metadata/container-img-desc.json -o ${OUTDIR}/evidence-collection.scai.json ${OUTDIR}/has-sbom-assertion.json ${OUTDIR}/has-slsa-assertion.json
+scai-gen report -s ${OUTDIR}/container-img-desc.json -o ${OUTDIR}/evidence-collection.scai.json ${OUTDIR}/has-sbom-assertion.json ${OUTDIR}/has-slsa-assertion.json
