@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"scai-gen/util"
+	"scai-gen/fileio"
 
 	ita "github.com/in-toto/attestation/go/v1"
 	scai "github.com/in-toto/attestation/go/predicates/scai/v0"
@@ -56,7 +56,7 @@ func genAttrAssertion(cmd *cobra.Command, args []string) error {
 	var target *ita.ResourceDescriptor
 	if len(targetFile) > 0 {
 		target = &ita.ResourceDescriptor{}
-		err := util.ReadPbFromFile(targetFile, target)
+		err := fileio.ReadPbFromFile(targetFile, target)
 		if err != nil {
 			return err
 		}
@@ -65,7 +65,7 @@ func genAttrAssertion(cmd *cobra.Command, args []string) error {
 	var conditions *structpb.Struct
 	if len(conditionsFile) > 0 {
 		conditions = &structpb.Struct{}
-		err := util.ReadPbFromFile(conditionsFile, conditions)
+		err := fileio.ReadPbFromFile(conditionsFile, conditions)
 		if err != nil {
 			return err
 		}
@@ -74,7 +74,7 @@ func genAttrAssertion(cmd *cobra.Command, args []string) error {
 	var evidence *ita.ResourceDescriptor
 	if len(evidenceFile) > 0 {
 		evidence = &ita.ResourceDescriptor{}
-		err := util.ReadPbFromFile(evidenceFile, evidence)
+		err := fileio.ReadPbFromFile(evidenceFile, evidence)
 		if err != nil {
 			return err
 		}
@@ -83,8 +83,8 @@ func genAttrAssertion(cmd *cobra.Command, args []string) error {
 	aa := &scai.AttributeAssertion{
 		Attribute: attribute,
 		Target: target,
-		//Conditions: conditions,
-		//Evidence: evidence,
+		Conditions: conditions,
+		Evidence: evidence,
 	}
 
 	err := aa.Validate()
@@ -92,5 +92,5 @@ func genAttrAssertion(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("Invalid SCAI attribute assertion: %w", err)
 	}
 	
-	return util.WritePbToFile(aa, outFile)
+	return fileio.WritePbToFile(aa, outFile)
 }

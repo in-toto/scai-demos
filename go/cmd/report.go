@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"scai-gen/util"
+	"scai-gen/fileio"
 
 	ita "github.com/in-toto/attestation/go/v1"
 	scai "github.com/in-toto/attestation/go/predicates/scai/v0"
@@ -47,7 +47,7 @@ func genAttrReport(cmd *cobra.Command, args []string) error {
 	var attrAsserts []*scai.AttributeAssertion
 	for _, attrAssertPath := range args {
 		aa := &scai.AttributeAssertion{}
-		err := util.ReadPbFromFile(attrAssertPath, aa)
+		err := fileio.ReadPbFromFile(attrAssertPath, aa)
 		if err != nil {
 			return err
 		}
@@ -58,7 +58,7 @@ func genAttrReport(cmd *cobra.Command, args []string) error {
 	var producer *ita.ResourceDescriptor
 	if len(producerFile) > 0 {
 		producer = &ita.ResourceDescriptor{}
-		err := util.ReadPbFromFile(producerFile, producer)
+		err := fileio.ReadPbFromFile(producerFile, producer)
 		if err != nil {
 			return err
 		}
@@ -80,7 +80,7 @@ func genAttrReport(cmd *cobra.Command, args []string) error {
 	var subject *ita.ResourceDescriptor
 	if len(subjectFile) > 0 {
 		subject = &ita.ResourceDescriptor{}
-		err := util.ReadPbFromFile(subjectFile, subject)
+		err := fileio.ReadPbFromFile(subjectFile, subject)
 		if err != nil {
 			return err
 		}
@@ -108,5 +108,5 @@ func genAttrReport(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("Invalid in-toto Statement: %w", err)
 	}
 	
-	return util.WritePbToFile(statement, outFile)
+	return fileio.WritePbToFile(statement, outFile)
 }
