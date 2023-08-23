@@ -1,10 +1,1 @@
-{
-    "attribute": "HasSLSA",
-    "evidence": {
-        "digest": {
-            "sha256": "ea4d1e56e739f26a451c095b9fb40a353b3e73ea1778fdddafe13562e81bd745"
-        },
-        "downloadLocation": "https://github.com/marcelamelara/private-data-objects/suites/14359811861/artifacts/808758121",
-        "mediaType": "application/x.dsse+jsonl"
-    }
-}
+{"attribute":"HasSLSA","evidence":{"name":"build.452e628a.json","digest":{"sha256":"94d18716ee4412175c5d9da1ce50947153e09c4762f9044af6f2d6828b12fe5b"},"downloadLocation":"https://github.com/marcelamelara/private-data-objects/suites/15417726142/artifacts/880403392/pdo_client_wawaka.slsa.intoto.jsonl","mediaType":"application/vnd.in-toto+dsse"}}

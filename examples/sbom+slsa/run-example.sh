@@ -14,17 +14,17 @@ mkdir -p ${EXAMPLE_DIR}/metadata
 
 source ${VENV_DIR}/bin/activate
 
-SBOM_URL="https://github.com/marcelamelara/private-data-objects/suites/14743599027/artifacts/838001247"
+SBOM_URL="https://github.com/marcelamelara/private-data-objects/suites/15417726142/artifacts/880403395"
 
-PROVENANCE_URL="https://github.com/marcelamelara/private-data-objects/suites/14743599027/artifacts/838001246"
+PROVENANCE_URL="https://github.com/marcelamelara/private-data-objects/suites/15417726142/artifacts/880403392/pdo_client_wawaka.slsa.intoto.jsonl"
 
 echo GENERATE PDO CLIENT CONTAINER SBOM DESCRIPTOR
 
-scai-gen-resource-desc -d -f pdo_client_wawaka.spdx.json -l ${SBOM_URL} -t application/spdx+json --resource-dir ${EXAMPLE_DIR}/metadata -o sbom-desc.json --out-dir ${EXAMPLE_DIR}/metadata
+scai-gen-resource-desc -n "pdo_client_wawaka.spdx.json" -d -f pdo_client_wawaka.spdx.json -l ${SBOM_URL} -t application/spdx+json --resource-dir ${EXAMPLE_DIR}/metadata -o sbom-desc.json --out-dir ${EXAMPLE_DIR}/metadata
 
 echo GENERATE PDO CLIENT CONTAINER SLSA PROVENANCE DESCRIPTOR
 
-scai-gen-resource-desc -d -f pdo_client_wawaka.slsa.intoto.jsonl -l ${PROVENANCE_URL} -t application/x.dsse+jsonl --resource-dir ${EXAMPLE_DIR}/metadata -o slsa-desc.json --out-dir ${EXAMPLE_DIR}/metadata
+scai-gen-resource-desc -n "build.452e628a.json" -d -f build.452e628a.json -l ${PROVENANCE_URL} -t application/vnd.in-toto.provenance+dsse --resource-dir ${EXAMPLE_DIR}/metadata/attestations -o slsa-desc.json --out-dir ${EXAMPLE_DIR}/metadata
 
 echo GENERATE HAS-SBOM SCAI ATTRIBUTE ASSERTION
 

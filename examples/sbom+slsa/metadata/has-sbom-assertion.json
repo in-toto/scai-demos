@@ -1,10 +1,1 @@
-{
-    "attribute": "HasSBOM",
-    "evidence": {
-        "digest": {
-            "sha256": "911d4365b61ba7ace55f7333b2c638caca4b811ee73da5beb28b9ecbbd22ca78"
-        },
-        "downloadLocation": "https://github.com/marcelamelara/private-data-objects/suites/14359811861/artifacts/808758122",
-        "mediaType": "application/spdx+json"
-    }
-}
+{"attribute":"HasSBOM","evidence":{"name":"pdo_client_wawaka.spdx.json","digest":{"sha256":"d95c202e0e402144d636380e982eaff54be559b55598fd18071e96d6f3a7eb03"},"downloadLocation":"https://github.com/marcelamelara/private-data-objects/suites/15417726142/artifacts/880403395","mediaType":"application/spdx+json"}}

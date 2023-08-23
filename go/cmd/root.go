@@ -27,6 +27,7 @@ func init() {
 	rootCmd.AddCommand(rdCmd)
 	rootCmd.AddCommand(assertCmd)
 	rootCmd.AddCommand(reportCmd)
+	rootCmd.AddCommand(verifyCmd)
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
