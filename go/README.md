@@ -1,14 +1,22 @@
 # scai-gen Go CLI
 
-This package provides a Go CLI for generating in-toto compatible [SCAI] metadata.
+This package provides a Go CLI for generating in-toto compatible [SCAI]
+metadata. We assume a minimal Ubuntu 20.04+ platform.
 
 ## Setup
 
-Assuming you have Go version 1.20 or higher installed, run:
+First, install Go version 1.20 or higher following the
+[Go installation instructions](https://go.dev/doc/install), as well as
+additional dependencies:
+
+```
+sudo apt install build-essential
+```
+
+Then, install the scai-gen Go module from this repo's root directory:
 
 ```bash
-go build
-go install
+make go-mod
 ```
 
 ## Usage

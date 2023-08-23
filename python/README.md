@@ -9,10 +9,18 @@ are required on a minimal Ubuntu system. We assume Ubuntu 20.04 or higher.
 sudo apt install git python3 python3-dev python3-venv virtualenv build-essential
 ```
 
-Then, set up the Python virtualenv for the SCAI CLI tools.
+Then, clone the in-toto Attestation Framework repository, on which the
+SCAI tools are built
 
 ```
-make VENVDIR=<dest dir> venv     # default is ./scai-venv
+git clone https://github.com/in-toto/attestation.git
+```
+
+Finally, set up the Python virtualenv for the SCAI CLI tools from this
+repo's root directory.
+
+```
+make VENVDIR=<dest dir> INTOTODIR=<path to in-toto attestation repo> py-venv
 ```
 
 ## Basic CLI Invocation

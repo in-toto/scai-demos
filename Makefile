@@ -12,7 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-VENVDIR ?= scai-venv
+VENVDIR ?= ./scai-venv
+INTOTODIR ?= ../attestation
 
 PY_VERSION=${shell python3 --version | sed 's/Python \(3\.[0-9]\).*/\1/'}
 PYTHON_DIR=$(VENVDIR)/lib/python$(PY_VERSION)/site-packages/
@@ -23,22 +24,25 @@ $(PYTHON_DIR):
 	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade pip
 	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade wheel
 	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade in-toto
-	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade ../in-toto.attestation/python
+	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade ${INTOTODIR}/python
 	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade ./python
 
 $(VENVDIR):
 	@echo CREATE SCAI VENV DIRECTORY $(VENVDIR)
 	mkdir -p $(VENVDIR)
 
-venv: $(VENVDIR) $(PYTHON_DIR)
+py-venv: $(VENVDIR) $(PYTHON_DIR)
+
+go-mod:
+	cd ./go && go build && go install
 
 clean:
 	@echo REMOVE SCAI VENV AND PYTHON LIB DIRS
 	rm -rf $(VENVDIR) __pycache__
 	cd ./python; rm -rf build dist *.egg-info
 
-test: venv
+test: py-venv
 	@echo TESTING WITH GCC-HELLOWORLD EXAMPLE
 	./examples/gcc-helloworld/run-example.sh
 
-.phony: clean test venv
+.phony: clean test py-venv go-mod

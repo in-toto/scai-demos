@@ -3,8 +3,8 @@
 # Copyright 2023 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
 
-SCAI_DIR=~/supply-chain-attribute-integrity
-EXAMPLE_DIR=${SCAI_DIR}/examples/gcc-helloworld
+VENV_DIR="${VENVDIR:=../../scai-venv}"
+EXAMPLE_DIR=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 
 # -----------------------------------------------------------------
 # Run gcc hello-world example
@@ -12,7 +12,7 @@ EXAMPLE_DIR=${SCAI_DIR}/examples/gcc-helloworld
 
 mkdir -p ${EXAMPLE_DIR}/metadata
 
-source ${SCAI_DIR}/scai-venv/bin/activate
+source ${VENV_DIR}/bin/activate
 
 echo RUN GCC
 

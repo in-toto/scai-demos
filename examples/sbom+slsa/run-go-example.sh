@@ -3,8 +3,7 @@
 # Copyright 2023 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
 
-SCAI_DIR=~/supply-chain-attribute-integrity
-EXAMPLE_DIR=${SCAI_DIR}/examples/sbom+slsa
+EXAMPLE_DIR=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 
 # -----------------------------------------------------------------
 # Run SBOM and SLSA evidence collection example

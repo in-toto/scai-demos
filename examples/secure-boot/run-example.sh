@@ -3,8 +3,8 @@
 # Copyright 2023 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
 
-SCAI_DIR=~/supply-chain-attribute-integrity
-EXAMPLE_DIR=${SCAI_DIR}/examples/secure-boot
+VENV_DIR="${VENVDIR:=../../scai-venv}"
+EXAMPLE_DIR=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 
 # -----------------------------------------------------------------
 echo "Run TPM2.0 secure boot attestation example"
@@ -12,7 +12,7 @@ echo "Run TPM2.0 secure boot attestation example"
 
 mkdir -p ${EXAMPLE_DIR}/metadata
 
-source ${SCAI_DIR}/scai-venv/bin/activate
+source ${VENV_DIR}/bin/activate
 
 echo GENERATE LOCALHOST DESCRIPTOR
 

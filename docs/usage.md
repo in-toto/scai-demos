@@ -12,6 +12,8 @@ in-toto attestations.
 
 ## CLI Usage
 
+The SCAI CLI tools and examples have been tested on Ubuntu 20.04 or higher.
+
 For information on how to use our CLI tools in [Python] or [Go] environments,
 please refer to their instructions.
 
