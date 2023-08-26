@@ -25,6 +25,15 @@ var (
 
 func init() {
 	assertCmd.Flags().StringVarP(
+		&outFile,
+		"out-file",
+		"o",
+		"",
+		"Filename to write out the JSON-encoded object",
+	)
+	assertCmd.MarkFlagRequired("out-file")
+	
+	assertCmd.Flags().StringVarP(
 		&targetFile,
 		"target",
 		"t",

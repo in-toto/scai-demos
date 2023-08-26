@@ -25,3 +25,11 @@ scai-gen assert -t ${EXAMPLE_DIR}/../sbom+slsa/metadata/slsa-desc.json -e ${OUTD
 echo GENERATE SCAI REPORT FOR HERMETIC BUILD REPORT
 
 scai-gen report -s ${EXAMPLE_DIR}/../sbom+slsa/metadata/container-img-desc.json -o ${OUTDIR}/hermetic-build.scai.json ${OUTDIR}/is-hermetic-assertion.json
+
+echo GENERATE NON_HERMETIC_BUILD SCAI ATTRIBUTE ASSERTION
+
+scai-gen assert -t ${EXAMPLE_DIR}/../sbom+slsa/metadata/slsa-desc.json -e ${OUTDIR}/strace-log-desc.json -o ${OUTDIR}/non-hermetic-assertion.json "NonHermeticBuild"
+
+echo GENERATE SCAI REPORT FOR HERMETIC BUILD REPORT
+
+scai-gen report -s ${EXAMPLE_DIR}/../sbom+slsa/metadata/container-img-desc.json -o ${OUTDIR}/non-hermetic-build.scai.json ${OUTDIR}/non-hermetic-assertion.json

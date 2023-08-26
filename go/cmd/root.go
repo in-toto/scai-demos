@@ -14,20 +14,11 @@ var rootCmd = &cobra.Command{
 
 var outFile string
 
-func init() {
-	rootCmd.PersistentFlags().StringVarP(
-		&outFile,
-		"out-file",
-		"o",
-		"",
-		"Filename to write out the JSON-encoded object",
-	)
-	rootCmd.MarkPersistentFlagRequired("out-file")
-	
+func init() {	
 	rootCmd.AddCommand(rdCmd)
 	rootCmd.AddCommand(assertCmd)
 	rootCmd.AddCommand(reportCmd)
-	rootCmd.AddCommand(verifyCmd)
+	rootCmd.AddCommand(checkCmd)
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

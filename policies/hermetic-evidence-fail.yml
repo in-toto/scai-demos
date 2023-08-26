@@ -1,0 +1,5 @@
+attestationID: "331046d1131de62d0bb9c919a27cc85b5a267136515f54bd354c8aa98f3ceb3b"
+inspections:
+  - name: "strace.log"
+    expectedAttributes:
+      - rule: "assertion.attribute == 'IsHermeticBuild' && text.contains('inet_addr') == false"

@@ -1,12 +1,12 @@
 package cmd
 
 import (
-	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
 	"os"
 	"strings"
 	"scai-gen/fileio"
+	"scai-gen/policy"
 
 	ita "github.com/in-toto/attestation/go/v1"
 	"github.com/spf13/cobra"
@@ -44,6 +44,15 @@ var (
 )
 
 func init() {
+	rdCmd.PersistentFlags().StringVarP(
+		&outFile,
+		"out-file",
+		"o",
+		"",
+		"Filename to write out the JSON-encoded object",
+	)
+	rdCmd.MarkPersistentFlagRequired("out-file")
+	
 	rdCmd.AddCommand(rdFileCmd)
 	rdCmd.AddCommand(rdRemoteCmd)
 }
@@ -141,12 +150,6 @@ func init() {
 	)
 }
 
-func genSHA256(bytes []byte) []byte {
-	h := sha256.New()
-	h.Write(bytes)
-	return h.Sum(nil)
-}
-
 func readAnnotations(filename string) (*structpb.Struct, error) {
 	var annotations *structpb.Struct
 	if len(filename) > 0 {
@@ -173,7 +176,7 @@ func genRdFromFile(cmd *cobra.Command, args []string) error {
 		content = fileBytes
 	}
 
-	sha256Digest := hex.EncodeToString(genSHA256(fileBytes))
+	sha256Digest := hex.EncodeToString(policy.GenSHA256(fileBytes))
 
 	rdName := filename
 	if len(name) > 0 {

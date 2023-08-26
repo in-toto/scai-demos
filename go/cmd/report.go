@@ -25,6 +25,15 @@ var (
 
 func init() {
 	reportCmd.Flags().StringVarP(
+		&outFile,
+		"out-file",
+		"o",
+		"",
+		"Filename to write out the JSON-encoded object",
+	)
+	reportCmd.MarkFlagRequired("out-file")
+	
+	reportCmd.Flags().StringVarP(
 		&subjectFile,
 		"subject",
 		"s",
