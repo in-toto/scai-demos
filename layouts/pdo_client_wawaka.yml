@@ -30,7 +30,6 @@ steps:
       - predicateType: "https://slsa.dev/provenance/v0.2"
         expectedAttributes:
           - rule: "predicate.builder.id == 'https://github.com/slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@refs/tags/v1.7.0'"
-          - rule: "predicate.buildType == 'https://github.com/slsa-framework/slsa-github-generator/generic@v1'"
           - rule: "predicate.invocation.configSource.uri == 'git+https://github.com/marcelamelara/private-data-objects@refs/heads/generate-swsc-build-metadata'"
           - rule: "predicate.invocation.configSource.digest.sha1 == '87b74378e8c9ccf335a27ffcdc16636990254e1e'"
         functionaries:

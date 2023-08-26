@@ -7,7 +7,6 @@ import(
 	"github.com/google/cel-go/cel"
 	"github.com/google/cel-go/interpreter"
 	scai "github.com/in-toto/attestation/go/predicates/scai/v0"
-	//"google.golang.org/protobuf/types/known/structpb"
 )
 
 func getPlaintextCELEnv() (*cel.Env, error) {

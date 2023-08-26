@@ -145,13 +145,8 @@ func checkEvidence(cmd *cobra.Command, args []string) error {
 		return err
 	}
 	
-	stBytes, err := envelope.DecodeB64Payload()
+	statement, err := getStatementDSSEPayload(envelope)
 	if err != nil {
-		return err
-	}
-	
-	statement := &ita.Statement{}
-	if err = protojson.Unmarshal(stBytes, statement); err != nil {
 		return err
 	}
 
@@ -220,12 +215,17 @@ func checkEvidence(cmd *cobra.Command, args []string) error {
 			}
 		
 		case "application/vnd.in-toto+dsse":
-			evStatement := &ita.Statement{}
-			if err = protojson.Unmarshal(evContent, evStatement); err != nil {
-				return fmt.Errorf("Failed to unmarshal evidence Statement: %w", err)
+			evEnv := &dsse.Envelope{}
+			if err := json.Unmarshal(evContent, evEnv); err != nil {
+				return err
 			}
 			
-			err := policy.ApplyAttestationRules(evStatement, rules)
+			evStatement, err := getStatementDSSEPayload(evEnv)
+			if err != nil {
+				return err
+			}
+			
+			err = policy.ApplyAttestationRules(evStatement, attrAssertion, rules)
 			if err != nil {
 				return fmt.Errorf("Attestation policy check failed: %w", err)
 			}
@@ -254,6 +254,20 @@ func pbStructToSCAI(s *structpb.Struct) (*scai.AttributeReport, error) {
 	}
 
 	return report, nil
+}
+
+func getStatementDSSEPayload(envelope *dsse.Envelope) (*ita.Statement, error) {
+	stBytes, err := envelope.DecodeB64Payload()
+	if err != nil {
+		return nil, fmt.Errorf("Failed to decode DSSE payload: %w", err)
+	}
+	
+	statement := &ita.Statement{}
+	if err = protojson.Unmarshal(stBytes, statement); err != nil {
+		return nil, fmt.Errorf("Failed to unmarshal Statement: %w", err)
+	}
+
+	return statement, nil
 }
 
 func getAllEvidenceFiles(evidenceDir string) (map[string][]byte, error) {
