@@ -8,7 +8,7 @@ This directory contains examples for SCAI use cases:
 * [Build platform attributes](./secure-boot)
 * [Dependency vulnerability attributes](./vuln-scan)
 
-## Usage
+## Basic Usage
 
 Before running any example, make sure to follow the [setup instructions].
 
@@ -26,7 +26,17 @@ And to run the Go example:
 
 The resulting metadata will be stored in the respective `metadata/` directory.
 
-:: warn :: The in-toto attestations generated for these examples are not
-digitally signed, and are only provided for demo purposes.
+:: warn :: The scai-generator CLI tools do not generate digitally signed in-toto
+attestations. Any digitally signed attestations included in this repo are only
+provided for demo purposes.
+
+## End-to-End Examples
+
+We provide one end-to-end example for a container build that showcases both
+SCAI attestation generation, as well as verification of an ITE-10 in-toto layout
+and SCAI policy checking.
+
+Use the `examples/run-container-examples-e2e.sh` bash script to run the full
+example.
 
 [setup instructions]: ../docs/usage.md

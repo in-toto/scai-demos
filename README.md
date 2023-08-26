@@ -9,8 +9,13 @@ For more details read our [intro doc] or the full [SCAI spec doc].
 ## In this repo
 
 This repo provides CLI tools for automatically generating valid,
-in-toto compatible SCAI metadata, as well as example use cases for SCAI in
+in-toto compatible SCAI metadata, and for checking the generated
+metadata against a given policy.
+
+A number of use cases for SCAI are implemented in
 [examples](examples/).
+
+In addition, we provide Go-based CLI tools for 
 
 The official [SCAI specification] is hosted under the
 [in-toto Attestation Framework] as an attestation predicate.
