@@ -13,7 +13,6 @@
 # limitations under the License.
 
 VENVDIR ?= ./scai-venv
-INTOTODIR ?= ../attestation
 
 PY_VERSION=${shell python3 --version | sed 's/Python \(3\.[0-9]\).*/\1/'}
 PYTHON_DIR=$(VENVDIR)/lib/python$(PY_VERSION)/site-packages/
@@ -24,7 +23,7 @@ $(PYTHON_DIR):
 	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade pip
 	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade wheel
 	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade in-toto
-	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade ${INTOTODIR}/python
+	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade in-toto-attestation>=0.9.2
 	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade ./python
 
 $(VENVDIR):
