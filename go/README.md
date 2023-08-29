@@ -24,9 +24,10 @@ make go-mod
 scai-gen can be used to generate JSON encoded in-toto [Resource Descriptors],
 SCAI [Attribute Assertions], and SCAI [Attribute Reports].
 
-scai-gen also provides a feature for checking [DSSE]-signed in-toto attestations
-against an in-toto [Layout] or a SCAI [evidence policy]. Examples can be found
-in the [layouts](../layouts) and [policies](../policies) directories.
+scai-gen also provides a feature for checking [DSSE]-signed in-toto
+attestations against an in-toto [Layout] or a SCAI [evidence policy].
+Examples can be found in the [layouts](../layouts) and
+[policies](../policies) directories.
 
 ### Generate an in-toto Resource Descriptor
 
@@ -58,6 +59,8 @@ scai-gen report -o <out-file> [-e <evidence RD filename>] <attribute assertion f
 
 Run `scai-gen report help` for a full list of command-line options.
 
+## SCAI policy checker
+
 ### Check the in-toto Layout for SCAI attestations
 
 ```bash
@@ -65,6 +68,10 @@ scai-gen check layout -l <layout-file> <SCAI attestation file1> [<SCAI attestati
 ```
 
 ### Check SCAI attestation against an evidence policy
+
+The `scai-gen check evidence` command currently only supports checking
+policies about evidence that is located locally. Support for checking
+evidence formats other than plaintext or in-toto attestations is upcoming.
 
 ```bash
 scai-gen check evidence -p <policy-file> -e <evidence-directory> <SCAI attestation file>

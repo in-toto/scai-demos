@@ -15,7 +15,9 @@ metadata against a given policy.
 A number of use cases for SCAI are implemented in
 [examples](examples/).
 
-In addition, we provide Go-based CLI tools for 
+In addition, we provide Go-based CLI tools for checking a SCAI attestation
+against evidence based on a policy. Example policies can be found in
+[policies/](policies/).
 
 The official [SCAI specification] is hosted under the
 [in-toto Attestation Framework] as an attestation predicate.
