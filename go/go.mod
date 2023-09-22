@@ -26,5 +26,3 @@ require (
 	google.golang.org/genproto v0.0.0-20230223222841-637eb2293923 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-replace github.com/adityasaky/in-toto-attestation-verifier => /home/mmelara/in-toto-attestation-verifier
