@@ -1,9 +1,9 @@
-module scai-gen
+module github.com/in-toto/scai-demos/scai-gen
 
 go 1.20
 
 require (
-	github.com/adityasaky/in-toto-attestation-verifier v0.0.0-20230821185233-3e31892810a9
+	github.com/in-toto/attestation-verifier
 	github.com/in-toto/attestation v0.1.1-0.20230815115951-858b99174793
 	github.com/secure-systems-lab/go-securesystemslib v0.6.0
 	github.com/spf13/cobra v1.7.0

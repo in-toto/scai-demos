@@ -1,25 +1,25 @@
-# Software Supply Chain Attribute Integrity (SCAI) Generator
+# in-toto SCAI Generator and Demos
 
 The Software Supply Chain Attribute Integrity, or SCAI (pronounced "sky"),
-specification is a succint data format for claims and evidence about
+framework is a succint data format specification for claims and evidence about
 attributes and integrity about a software artifact and its supply chain.
 
 For more details read our [intro doc] or the full [SCAI spec doc].
 
 ## In this repo
 
-This repo provides CLI tools for automatically generating valid,
-in-toto compatible SCAI metadata, and for checking the generated
-metadata against a given policy.
+This repo provides [Go](scai-gen/) and [Python](python/) implementations of
+CLI tools for automatically generating valid, in-toto ITE-6 compliant SCAI
+metadata.
 
-A number of use cases for SCAI are implemented in
-[examples](examples/).
+A number of sample use cases for SCAI are implemented in
+[examples/](examples/).
 
-In addition, we provide Go-based CLI tools for checking a SCAI attestation
-against evidence based on a policy. Example policies can be found in
+In addition, our Go [scai-gen](scai-gen/) CLI tool supports policy checking of
+SCAI attestations against evidence. Example policies can be found in
 [policies/](policies/).
 
-The official [SCAI specification] is hosted under the
+The [SCAI specification] is hosted under the
 [in-toto Attestation Framework] as an attestation predicate.
 
 All documentation can be found under [docs/](docs/).

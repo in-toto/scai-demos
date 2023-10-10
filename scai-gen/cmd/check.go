@@ -7,8 +7,8 @@ import (
 	"io/fs"
 	"strings"
 	"os"
-	"scai-gen/fileio"
-	"scai-gen/policy"
+	"github.com/in-toto/scai-demos/scai-gen/fileio"
+	"github.com/in-toto/scai-demos/scai-gen/policy"
 
 	"github.com/adityasaky/in-toto-attestation-verifier/verifier"
 	ita "github.com/in-toto/attestation/go/v1"

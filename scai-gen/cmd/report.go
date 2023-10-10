@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"scai-gen/fileio"
+	"github.com/in-toto/scai-demos/scai-gen/fileio"
 
 	ita "github.com/in-toto/attestation/go/v1"
 	scai "github.com/in-toto/attestation/go/predicates/scai/v0"
