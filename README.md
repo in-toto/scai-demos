@@ -9,8 +9,8 @@ For more details read our [intro doc] or the full [SCAI spec doc].
 ## In this repo
 
 This repo provides [Go](scai-gen/) and [Python](python/) implementations of
-CLI tools for automatically generating valid, in-toto ITE-6 compliant SCAI
-metadata.
+CLI tools for automatically generating SCAI metadata compliant with the
+[in-toto Attestation Framework].
 
 A number of sample use cases for SCAI are implemented in
 [examples/](examples/).
@@ -20,7 +20,7 @@ SCAI attestations against evidence. Example policies can be found in
 [policies/](policies/).
 
 The [SCAI specification] is hosted under the
-[in-toto Attestation Framework] as an attestation predicate.
+in-toto Attestation Framework as an attestation predicate.
 
 All documentation can be found under [docs/](docs/).
 
