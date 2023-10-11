@@ -1,7 +1,7 @@
 # in-toto SCAI Generator and Demos
 
 The Software Supply Chain Attribute Integrity, or SCAI (pronounced "sky"),
-framework is a succint data format specification for claims and evidence about
+framework is a succinct data format specification for claims and evidence about
 attributes and integrity about a software artifact and its supply chain.
 
 For more details read our [intro doc] or the full [SCAI spec doc].
