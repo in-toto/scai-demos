@@ -1,4 +1,4 @@
-module github.com/in-toto/scai-demos/scai-gen
+module github.com/in-toto/scai-demos
 
 go 1.20
 
