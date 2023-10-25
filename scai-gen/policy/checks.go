@@ -1,15 +1,15 @@
 package policy
 
-import(
+import (
 	"bytes"
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
 	"strings"
-	
-	"github.com/in-toto/attestation-verifier/verifier"
+
 	"github.com/google/cel-go/cel"
 	"github.com/google/cel-go/interpreter"
+	"github.com/in-toto/attestation-verifier/verifier"
 )
 
 type SCAIEvidencePolicy struct {
@@ -24,7 +24,6 @@ func GenSHA256(bytes []byte) []byte {
 }
 
 func MatchDigest(hexDigest string, blob []byte) bool {
-
 	digest := GenSHA256(blob)
 
 	decoded, err := hex.DecodeString(hexDigest)
@@ -37,9 +36,7 @@ func MatchDigest(hexDigest string, blob []byte) bool {
 }
 
 func applyRules(env *cel.Env, input interpreter.Activation, rules []verifier.Constraint) error {
-
 	for _, r := range rules {
-
 		ast, issues := env.Compile(r.Rule)
 		if issues != nil && issues.Err() != nil {
 			return fmt.Errorf("CEL compilation issues: %w", issues.Err())
@@ -57,6 +54,7 @@ func applyRules(env *cel.Env, input interpreter.Activation, rules []verifier.Con
 			}
 			return err
 		}
+
 		switch result := out.Value().(type) {
 		case bool:
 			if !result {

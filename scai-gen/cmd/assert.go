@@ -2,10 +2,11 @@ package cmd
 
 import (
 	"fmt"
+
 	"github.com/in-toto/scai-demos/scai-gen/fileio"
 
-	ita "github.com/in-toto/attestation/go/v1"
 	scai "github.com/in-toto/attestation/go/predicates/scai/v0"
+	ita "github.com/in-toto/attestation/go/v1"
 	"github.com/spf13/cobra"
 	"google.golang.org/protobuf/types/known/structpb"
 )
@@ -18,9 +19,9 @@ var assertCmd = &cobra.Command{
 }
 
 var (
-	targetFile       string
-	conditionsFile   string
-	evidenceFile     string
+	targetFile     string
+	conditionsFile string
+	evidenceFile   string
 )
 
 func init() {
@@ -31,8 +32,8 @@ func init() {
 		"",
 		"Filename to write out the JSON-encoded object",
 	)
-	assertCmd.MarkFlagRequired("out-file")
-	
+	assertCmd.MarkFlagRequired("out-file") //nolint:errcheck
+
 	assertCmd.Flags().StringVarP(
 		&targetFile,
 		"target",
@@ -58,8 +59,7 @@ func init() {
 	)
 }
 
-func genAttrAssertion(cmd *cobra.Command, args []string) error {
-
+func genAttrAssertion(_ *cobra.Command, args []string) error {
 	attribute := args[0]
 
 	var target *ita.ResourceDescriptor
@@ -88,18 +88,18 @@ func genAttrAssertion(cmd *cobra.Command, args []string) error {
 			return err
 		}
 	}
-	
+
 	aa := &scai.AttributeAssertion{
-		Attribute: attribute,
-		Target: target,
+		Attribute:  attribute,
+		Target:     target,
 		Conditions: conditions,
-		Evidence: evidence,
+		Evidence:   evidence,
 	}
 
 	err := aa.Validate()
 	if err != nil {
-		return fmt.Errorf("Invalid SCAI attribute assertion: %w", err)
+		return fmt.Errorf("invalid SCAI attribute assertion: %w", err)
 	}
-	
+
 	return fileio.WritePbToFile(aa, outFile)
 }

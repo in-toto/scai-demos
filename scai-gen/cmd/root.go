@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"os"
-	
+
 	"github.com/spf13/cobra"
 )
 
@@ -14,7 +14,7 @@ var rootCmd = &cobra.Command{
 
 var outFile string
 
-func init() {	
+func init() {
 	rootCmd.AddCommand(rdCmd)
 	rootCmd.AddCommand(assertCmd)
 	rootCmd.AddCommand(reportCmd)

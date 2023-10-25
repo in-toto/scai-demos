@@ -1,8 +1,8 @@
 package fileio
 
-import(
-	"path/filepath"
+import (
 	"os"
+	"path/filepath"
 )
 
 func ReadFileIntoMap(filename string, fileMap map[string][]byte) error {
@@ -11,7 +11,7 @@ func ReadFileIntoMap(filename string, fileMap map[string][]byte) error {
 	if err != nil {
 		return err
 	}
-	
+
 	fileMap[name] = content
 	return nil
 }
