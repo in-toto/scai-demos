@@ -12,6 +12,8 @@ github.com/google/go-cmp v0.5.5/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/
 github.com/google/go-cmp v0.5.9 h1:O2Tfq5qg4qc4AmwVlvv0oLiVAGB7enBSJ2x2DqQFi38=
 github.com/in-toto/attestation v0.1.1-0.20230815115951-858b99174793 h1:gt+nMMQ4HzkrnXkdKgUGePvaWKRvuKgvpLNPwykN5Po=
 github.com/in-toto/attestation v0.1.1-0.20230815115951-858b99174793/go.mod h1:hCR5COCuENh5+VfojEkJnt7caOymbEgvyZdKifD6pOw=
+github.com/in-toto/attestation-verifier v0.0.0-20231007025621-3193280f5194 h1:/6Eg0GCBxSt+DQupjAjrkFOj+YMDreuNp3sWHS5Lglw=
+github.com/in-toto/attestation-verifier v0.0.0-20231007025621-3193280f5194/go.mod h1:AGDneTh/fuy+eZrY2sH+MB0nVGEvnUqd+GeyQDGTNR0=
 github.com/in-toto/in-toto-golang v0.9.0 h1:tHny7ac4KgtsfrG6ybU8gVOZux2H8jN05AXJ9EBM1XU=
 github.com/in-toto/in-toto-golang v0.9.0/go.mod h1:xsBVrVsHNsB61++S6Dy2vWosKhuA3lUTQd+eF9HdeMo=
 github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=

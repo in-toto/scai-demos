@@ -1,7 +1,7 @@
 package policy
 
 import(
-	"github.com/adityasaky/in-toto-attestation-verifier/verifier"
+	"github.com/in-toto/attestation-verifier/verifier"
 	"github.com/google/cel-go/cel"
 	"github.com/google/cel-go/interpreter"
 	ita "github.com/in-toto/attestation/go/v1"
