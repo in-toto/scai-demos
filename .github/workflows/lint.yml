@@ -4,12 +4,12 @@ on:
     branches:
       - main
     paths:
-      - "scai-gen/*"
+      - "scai-gen/**"
   # Want to trigger these tests whenever the Go CLI or
   # APIs are modified
   pull_request:
     paths:
-      - "scai-gen/*"
+      - "scai-gen/**"
 permissions:
   contents: read
 jobs:
