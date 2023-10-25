@@ -1,11 +1,11 @@
 package policy
 
-import(
+import (
 	"fmt"
-	
-	"github.com/in-toto/attestation-verifier/verifier"
+
 	"github.com/google/cel-go/cel"
 	"github.com/google/cel-go/interpreter"
+	"github.com/in-toto/attestation-verifier/verifier"
 	scai "github.com/in-toto/attestation/go/predicates/scai/v0"
 )
 
@@ -19,21 +19,20 @@ func getPlaintextCELEnv() (*cel.Env, error) {
 
 func getPlaintextActivation(text string, attrAssertion *scai.AttributeAssertion) (interpreter.Activation, error) {
 	return interpreter.NewActivation(map[string]any{
-		"text": text,
+		"text":      text,
 		"assertion": attrAssertion,
 	})
 }
 
 func ApplyPlaintextRules(text string, attrAssertion *scai.AttributeAssertion, rules []verifier.Constraint) error {
-
 	env, err := getPlaintextCELEnv()
 	if err != nil {
-		return fmt.Errorf("Failed to init CEL env: %w", err)
+		return fmt.Errorf("failed to init CEL env: %w", err)
 	}
 
 	input, err := getPlaintextActivation(text, attrAssertion)
 	if err != nil {
-		return fmt.Errorf("Failed to get CEL activation: %w", err)
+		return fmt.Errorf("failed to get CEL activation: %w", err)
 	}
 
 	return applyRules(env, input, rules)

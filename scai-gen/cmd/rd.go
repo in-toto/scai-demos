@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
 	"github.com/in-toto/scai-demos/scai-gen/fileio"
 	"github.com/in-toto/scai-demos/scai-gen/policy"
 
@@ -51,8 +52,8 @@ func init() {
 		"",
 		"Filename to write out the JSON-encoded object",
 	)
-	rdCmd.MarkPersistentFlagRequired("out-file")
-	
+	rdCmd.MarkPersistentFlagRequired("out-file") //nolint:errcheck
+
 	rdCmd.AddCommand(rdFileCmd)
 	rdCmd.AddCommand(rdRemoteCmd)
 }
@@ -65,7 +66,7 @@ func init() {
 		"",
 		"A name for the local file",
 	)
-	
+
 	rdFileCmd.Flags().StringVarP(
 		&uri,
 		"uri",
@@ -73,7 +74,7 @@ func init() {
 		"",
 		"The URI of the resource",
 	)
-	
+
 	rdFileCmd.Flags().BoolVarP(
 		&withContent,
 		"content",
@@ -163,12 +164,11 @@ func readAnnotations(filename string) (*structpb.Struct, error) {
 	return annotations, nil
 }
 
-func genRdFromFile(cmd *cobra.Command, args []string) error {
-
+func genRdFromFile(_ *cobra.Command, args []string) error {
 	filename := args[0]
 	fileBytes, err := os.ReadFile(filename)
 	if err != nil {
-		return fmt.Errorf("Error reading resource file: %w", err)
+		return fmt.Errorf("error reading resource file: %w", err)
 	}
 
 	var content []byte
@@ -185,61 +185,60 @@ func genRdFromFile(cmd *cobra.Command, args []string) error {
 
 	annotations, err := readAnnotations(annotationsFile)
 	if err != nil {
-		return fmt.Errorf("Error reading annotations file: %w", err)
+		return fmt.Errorf("error reading annotations file: %w", err)
 	}
-	
+
 	rd := &ita.ResourceDescriptor{
-		Name: rdName,
-		Uri: uri,
-		Digest: map[string]string{"sha256": strings.ToLower(sha256Digest)},
-		Content: content,
+		Name:             rdName,
+		Uri:              uri,
+		Digest:           map[string]string{"sha256": strings.ToLower(sha256Digest)},
+		Content:          content,
 		DownloadLocation: downloadLocation,
-		MediaType: mediaType,
-		Annotations: annotations,
+		MediaType:        mediaType,
+		Annotations:      annotations,
 	}
 
 	err = rd.Validate()
 	if err != nil {
-		return fmt.Errorf("Invalid resource descriptor: %w", err)
+		return fmt.Errorf("invalid resource descriptor: %w", err)
 	}
-	
+
 	return fileio.WritePbToFile(rd, outFile)
 }
 
-func genRdForRemote(cmd *cobra.Command, args []string) error {
+func genRdForRemote(_ *cobra.Command, args []string) error {
+	remoteURI := args[0]
 
-	remoteUri := args[0]
-
-	var digestSet map[string]string
+	digestSet := make(map[string]string)
 	if len(digest) > 0 {
 		// the in-toto spec expects a hex-encoded string in DigestSets
 		// https://github.com/in-toto/attestation/blob/main/spec/v1/digest_set.md
 		_, err := hex.DecodeString(digest)
 		if err != nil {
-			return fmt.Errorf("Digest is not valid hex-encoded string: %w", err)
+			return fmt.Errorf("digest is not valid hex-encoded string: %w", err)
 		}
-		
+
 		// we can assume that we have both variables set at this point
 		digestSet = map[string]string{hashAlg: strings.ToLower(digest)}
 	}
 
 	annotations, err := readAnnotations(annotationsFile)
 	if err != nil {
-		return fmt.Errorf("Error reading annotations file: %w", err)
+		return fmt.Errorf("error reading annotations file: %w", err)
 	}
-	
+
 	rd := &ita.ResourceDescriptor{
-		Name: name,
-		Uri: remoteUri,
-		Digest: digestSet,
+		Name:             name,
+		Uri:              remoteURI,
+		Digest:           digestSet,
 		DownloadLocation: downloadLocation,
-		Annotations: annotations,
+		Annotations:      annotations,
 	}
 
 	err = rd.Validate()
 	if err != nil {
-		return fmt.Errorf("Invalid resource descriptor: %w", err)
+		return fmt.Errorf("invalid resource descriptor: %w", err)
 	}
-	
+
 	return fileio.WritePbToFile(rd, outFile)
 }

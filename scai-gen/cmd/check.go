@@ -1,18 +1,19 @@
 package cmd
 
 import (
-	"path/filepath"
-	"fmt"
 	"encoding/json"
+	"fmt"
 	"io/fs"
-	"strings"
 	"os"
+	"path/filepath"
+	"strings"
+
 	"github.com/in-toto/scai-demos/scai-gen/fileio"
 	"github.com/in-toto/scai-demos/scai-gen/policy"
 
 	"github.com/in-toto/attestation-verifier/verifier"
-	ita "github.com/in-toto/attestation/go/v1"
 	scai "github.com/in-toto/attestation/go/predicates/scai/v0"
+	ita "github.com/in-toto/attestation/go/v1"
 	"github.com/secure-systems-lab/go-securesystemslib/dsse"
 	"github.com/spf13/cobra"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -58,10 +59,10 @@ func init() {
 		"",
 		"The filename of the YAML-encoded in-toto Layout",
 	)
-	layoutCmd.MarkFlagRequired("layout")
+	layoutCmd.MarkFlagRequired("layout") //nolint:errcheck
 }
 
-func init() {	
+func init() {
 	evCmd.Flags().StringVarP(
 		&evidenceDir,
 		"evidence-dir",
@@ -69,7 +70,7 @@ func init() {
 		"",
 		"The directory containing evidence files",
 	)
-	evCmd.MarkFlagRequired("evidence-dir")
+	evCmd.MarkFlagRequired("evidence-dir") //nolint:errcheck
 
 	evCmd.Flags().StringVarP(
 		&policyFile,
@@ -78,11 +79,10 @@ func init() {
 		"",
 		"The filename of the policy file",
 	)
-	evCmd.MarkFlagRequired("policy-file")
+	evCmd.MarkFlagRequired("policy-file") //nolint:errcheck
 }
 
-func checkLayout(cmd *cobra.Command, args []string) error {
-
+func checkLayout(_ *cobra.Command, args []string) error {
 	layout, err := verifier.LoadLayout(layoutFile)
 	if err != nil {
 		return err
@@ -109,8 +109,7 @@ func checkLayout(cmd *cobra.Command, args []string) error {
 	return verifier.Verify(layout, attestations, parameters)
 }
 
-func checkEvidence(cmd *cobra.Command, args []string) error {
-
+func checkEvidence(_ *cobra.Command, args []string) error {
 	attestationPath := args[0]
 	fmt.Println("Reading attestation file", attestationPath)
 
@@ -118,9 +117,9 @@ func checkEvidence(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
-	
+
 	fmt.Println("Reading policy file", policyFile)
-	
+
 	policyBytes, err := os.ReadFile(policyFile)
 	if err != nil {
 		return err
@@ -134,7 +133,7 @@ func checkEvidence(cmd *cobra.Command, args []string) error {
 	fmt.Println("Checking attestation matches ID in policy")
 
 	if !policy.MatchDigest(evPolicy.AttestationID, envBytes) {
-		return fmt.Errorf("Attestation does not match attestation ID in policy")
+		return fmt.Errorf("attestation does not match attestation ID in policy")
 	}
 
 	// now, let's get the Statement
@@ -144,21 +143,21 @@ func checkEvidence(cmd *cobra.Command, args []string) error {
 	if err := json.Unmarshal(envBytes, envelope); err != nil {
 		return err
 	}
-	
+
 	statement, err := getStatementDSSEPayload(envelope)
 	if err != nil {
 		return err
 	}
 
 	fmt.Println("Collecting all evidence files")
-	
+
 	evidenceFiles, err := getAllEvidenceFiles(evidenceDir)
 	if err != nil {
-		return fmt.Errorf("Failed read evidence files in directory %s: %w", evidenceDir, err)
+		return fmt.Errorf("failed read evidence files in directory %s: %w", evidenceDir, err)
 	}
 
 	if statement.GetPredicateType() != "https://in-toto.io/attestation/scai/attribute-report/v0.2" {
-		return fmt.Errorf("Evidence checking only supported for SCAI attestations")
+		return fmt.Errorf("evidence checking only supported for SCAI attestations")
 	}
 
 	report, err := pbStructToSCAI(statement.GetPredicate())
@@ -168,7 +167,7 @@ func checkEvidence(cmd *cobra.Command, args []string) error {
 
 	// validate the report
 	if err := report.Validate(); err != nil {
-		return fmt.Errorf("Malformed SCAI Attribute Report: %w", err)
+		return fmt.Errorf("malformed SCAI Attribute Report: %w", err)
 	}
 
 	// order attribute assertions by evidence name
@@ -181,28 +180,28 @@ func checkEvidence(cmd *cobra.Command, args []string) error {
 	}
 
 	fmt.Println("Checking policy rules...")
-	
+
 	for _, check := range evPolicy.Inspections {
 		rules := check.ExpectedAttributes
 		if len(rules) == 0 {
-			return fmt.Errorf("No rules for check %s", check.Name)
+			return fmt.Errorf("no rules for check %s", check.Name)
 		}
-		
+
 		attrAssertion, ok := attrAssertions[check.Name]
 		if !ok {
-			return fmt.Errorf("Attestation evidence missing %s", check.Name)
+			return fmt.Errorf("attestation evidence missing %s", check.Name)
 		}
 
 		fmt.Println("Validating attribute assertion format")
 		if err := attrAssertion.Validate(); err != nil {
-			return fmt.Errorf("Malformed attribute assertion in attestation: %w", err)
+			return fmt.Errorf("malformed attribute assertion in attestation: %w", err)
 		}
 
 		ev := attrAssertion.GetEvidence()
-		
+
 		evContent, ok := evidenceFiles[ev.GetName()]
 		if !ok {
-			return fmt.Errorf("Evidence file to check not found")
+			return fmt.Errorf("evidence file to check not found")
 		}
 
 		fmt.Println("Checking evidence content according to policy rules...")
@@ -211,28 +210,27 @@ func checkEvidence(cmd *cobra.Command, args []string) error {
 		case "text/plain":
 			err := policy.ApplyPlaintextRules(string(evContent), attrAssertion, rules)
 			if err != nil {
-				return fmt.Errorf("Plaintext policy check failed: %w", err)
+				return fmt.Errorf("plaintext policy check failed: %w", err)
 			}
-		
+
 		case "application/vnd.in-toto+dsse":
 			evEnv := &dsse.Envelope{}
 			if err := json.Unmarshal(evContent, evEnv); err != nil {
 				return err
 			}
-			
+
 			evStatement, err := getStatementDSSEPayload(evEnv)
 			if err != nil {
 				return err
 			}
-			
+
 			err = policy.ApplyAttestationRules(evStatement, attrAssertion, rules)
 			if err != nil {
-				return fmt.Errorf("Attestation policy check failed: %w", err)
+				return fmt.Errorf("attestation policy check failed: %w", err)
 			}
-		
-		default:
-			return fmt.Errorf("Evidence type not supported: %s", ev.GetMediaType())
 
+		default:
+			return fmt.Errorf("evidence type not supported: %s", ev.GetMediaType())
 		}
 	}
 
@@ -241,14 +239,14 @@ func checkEvidence(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func pbStructToSCAI(s *structpb.Struct) (*scai.AttributeReport, error) {	
-	structJson, err := protojson.Marshal(s)
+func pbStructToSCAI(s *structpb.Struct) (*scai.AttributeReport, error) {
+	structJSON, err := protojson.Marshal(s)
 	if err != nil {
 		return nil, err
 	}
 
 	report := &scai.AttributeReport{}
-	err = protojson.Unmarshal(structJson, report)
+	err = protojson.Unmarshal(structJSON, report)
 	if err != nil {
 		return nil, err
 	}
@@ -259,12 +257,12 @@ func pbStructToSCAI(s *structpb.Struct) (*scai.AttributeReport, error) {
 func getStatementDSSEPayload(envelope *dsse.Envelope) (*ita.Statement, error) {
 	stBytes, err := envelope.DecodeB64Payload()
 	if err != nil {
-		return nil, fmt.Errorf("Failed to decode DSSE payload: %w", err)
+		return nil, fmt.Errorf("failed to decode DSSE payload: %w", err)
 	}
-	
+
 	statement := &ita.Statement{}
 	if err = protojson.Unmarshal(stBytes, statement); err != nil {
-		return nil, fmt.Errorf("Failed to unmarshal Statement: %w", err)
+		return nil, fmt.Errorf("failed to unmarshal Statement: %w", err)
 	}
 
 	return statement, nil

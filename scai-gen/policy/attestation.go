@@ -1,11 +1,11 @@
 package policy
 
-import(
-	"github.com/in-toto/attestation-verifier/verifier"
+import (
 	"github.com/google/cel-go/cel"
 	"github.com/google/cel-go/interpreter"
-	ita "github.com/in-toto/attestation/go/v1"
+	"github.com/in-toto/attestation-verifier/verifier"
 	scai "github.com/in-toto/attestation/go/predicates/scai/v0"
+	ita "github.com/in-toto/attestation/go/v1"
 )
 
 func getAttestationCELEnv() (*cel.Env, error) {
@@ -30,7 +30,6 @@ func getAttestationActivation(statement *ita.Statement, attrAssertion *scai.Attr
 }
 
 func ApplyAttestationRules(statement *ita.Statement, attrAssertion *scai.AttributeAssertion, rules []verifier.Constraint) error {
-
 	env, err := getAttestationCELEnv()
 	if err != nil {
 		return err

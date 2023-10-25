@@ -1,11 +1,11 @@
 package fileio
 
-import(
+import (
 	"fmt"
 	"os"
 
-	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/encoding/protojson"
+	"google.golang.org/protobuf/proto"
 )
 
 func WritePbToFile(pb proto.Message, outFile string) error {
@@ -14,18 +14,18 @@ func WritePbToFile(pb proto.Message, outFile string) error {
 		return err
 	}
 
-	return os.WriteFile(outFile, pbBytes, 0644)
+	return os.WriteFile(outFile, pbBytes, 0644) //nolint:gosec
 }
 
 func ReadPbFromFile(filename string, pb proto.Message) error {
 	fileBytes, err := os.ReadFile(filename)
 	if err != nil {
-		return fmt.Errorf("Error reading file: %w", err)
+		return fmt.Errorf("error reading file: %w", err)
 	}
 
 	err = protojson.Unmarshal(fileBytes, pb)
 	if err != nil {
-		return fmt.Errorf("Error unmarshalling protobuf: %w", err)
+		return fmt.Errorf("error unmarshalling protobuf: %w", err)
 	}
 
 	return nil

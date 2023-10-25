@@ -2,10 +2,11 @@ package cmd
 
 import (
 	"fmt"
+
 	"github.com/in-toto/scai-demos/scai-gen/fileio"
 
-	ita "github.com/in-toto/attestation/go/v1"
 	scai "github.com/in-toto/attestation/go/predicates/scai/v0"
+	ita "github.com/in-toto/attestation/go/v1"
 	"github.com/spf13/cobra"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/structpb"
@@ -31,8 +32,8 @@ func init() {
 		"",
 		"Filename to write out the JSON-encoded object",
 	)
-	reportCmd.MarkFlagRequired("out-file")
-	
+	reportCmd.MarkFlagRequired("out-file") //nolint:errcheck
+
 	reportCmd.Flags().StringVarP(
 		&subjectFile,
 		"subject",
@@ -40,7 +41,7 @@ func init() {
 		"",
 		"The filename of the JSON-encoded subject resource descriptor",
 	)
-	reportCmd.MarkFlagRequired("subject")
+	reportCmd.MarkFlagRequired("subject") //nolint:errcheck
 
 	reportCmd.Flags().StringVarP(
 		&producerFile,
@@ -51,9 +52,8 @@ func init() {
 	)
 }
 
-func genAttrReport(cmd *cobra.Command, args []string) error {
-
-	var attrAsserts []*scai.AttributeAssertion
+func genAttrReport(_ *cobra.Command, args []string) error {
+	attrAsserts := make([]*scai.AttributeAssertion, 0, len(args))
 	for _, attrAssertPath := range args {
 		aa := &scai.AttributeAssertion{}
 		err := fileio.ReadPbFromFile(attrAssertPath, aa)
@@ -76,12 +76,12 @@ func genAttrReport(cmd *cobra.Command, args []string) error {
 	// first, generate the SCAI Report
 	ar := &scai.AttributeReport{
 		Attributes: attrAsserts,
-		Producer: producer,
+		Producer:   producer,
 	}
 
 	err := ar.Validate()
 	if err != nil {
-		return fmt.Errorf("Invalid SCAI attribute report: %w", err)
+		return fmt.Errorf("invalid SCAI attribute report: %w", err)
 	}
 
 	// then, plug the Report into an in-toto Statement
@@ -95,12 +95,12 @@ func genAttrReport(cmd *cobra.Command, args []string) error {
 		}
 	}
 
-	reportJson, err := protojson.Marshal(ar)
+	reportJSON, err := protojson.Marshal(ar)
 	if err != nil {
 		return err
 	}
 	reportStruct := &structpb.Struct{}
-	err = protojson.Unmarshal(reportJson, reportStruct)
+	err = protojson.Unmarshal(reportJSON, reportStruct)
 	if err != nil {
 		return err
 	}
@@ -114,8 +114,8 @@ func genAttrReport(cmd *cobra.Command, args []string) error {
 
 	err = statement.Validate()
 	if err != nil {
-		return fmt.Errorf("Invalid in-toto Statement: %w", err)
+		return fmt.Errorf("invalid in-toto Statement: %w", err)
 	}
-	
+
 	return fileio.WritePbToFile(statement, outFile)
 }
