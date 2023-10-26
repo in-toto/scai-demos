@@ -1,0 +1,61 @@
+name: "SCAI AttributeAssertion generator"
+description: "Generates a SCAI AttributeAssertion with evidence"
+inputs:
+  attribute:
+    description: "The attribute being asserted"
+    required: true
+    type: string
+  evidence-file:
+    description: "The file containing the evidence. Note that this action assumes the evidence was an artifact uploaded during a previous step."
+    required: true
+    type: string
+  evidence-type:
+    description: "The media type of the evidence"
+    required: optional
+    default: "application/json"
+    type: string
+  assertion-name:
+    description: "The artifact name of the unsigned SCAI AttributeAssertion. The file must have the .json extension. Defaults to <attribute>-assert.json when not specified."
+    required: false
+    default: "scai-assertion.json"
+    type: string
+outputs:
+  assertion-name:
+    description: "Filename of the generated AttributeAssertion"
+    value: ${{ steps.scai-gen-assert.outputs.assertion-name }}
+
+runs:
+  using: "composite"
+  steps:
+#    outputs:
+#      evidence-rd: ${{ steps.gen-rd.desc }}
+      - name: Get the evidence artifact
+        id: get-evidence
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
+        with:
+          name: "${{ inputs.evidence-file }}"
+
+      - name: Generate ResourceDescriptor for evidence
+        id: gen-rd
+        uses: marcelamelara/scai-demos/.github/actions/scai-gen-rd@add-scai-reusable-workflows
+        with:
+          name: "${{ inputs.evidence-file }}"
+          location: "theLocation"
+          media-type: "${{ inputs.evidence-type }}"
+          path: "${{ steps.get-evidence.outputs.download-path }}"
+          rd-name: "${{ inputs.evidence-file }}-desc.json"
+
+      - name: Run scai-gen assert
+        id: scai-gen-assert
+        shell: bash
+        run: |
+          scai-gen assert -e ${{ steps.gen-rd.outputs.rd-name }} -o ${{ steps.get-evidence.outputs.download-path }}/${{ inputs.assertion-name }} ${{ inputs.attribute}}
+          echo "assertion-name=${{ steps.get-evidence.outputs.download-path }}/${{ inputs.assertion-name }}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload the unsigned AttributeAssertion
+        id: upload-assert
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
+        with:
+          name: "${{ inputs.assertion-name }}"
+          path: "${{ inputs.assertion-name }}"
+          retention-days: 5

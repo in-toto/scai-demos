@@ -1,0 +1,45 @@
+name: "in-toto ResourceDescriptor generator"
+description: "Generates an in-toto ResourceDescriptor from a file"
+inputs:
+  name:
+    description: "The name of the resource file"
+    required: true
+    type: string
+  location:
+    description: "The download location of the file"
+    required: true
+    type: string
+  media-type:
+    description: "The media type of the file"
+    required: true
+    type: string
+  path:
+    description: "The path to the resource file"
+    required: true
+    type: string
+  rd-name:
+    description: "The name of the output ResourceDescriptor file. The file must have the .json extension."
+    required: true
+    type: string
+outputs:
+  rd-name:
+    description: "Filename of the generated ResourceDescriptor"
+    value: ${{ steps.scai-gen-rd-file.outputs.rd-name }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Go
+      uses: actions/setup-go@93397bea11091df50f3d7e59dc26a7711a8bcfbe
+      with:
+        go-version: 1.20.x
+    - name: Get scai-gen CLI tools
+      shell: bash
+      run: |
+        go install github.com/in-toto/scai-demos/scai-gen@latest
+    - name: Run scai-gen rd file
+      id: scai-gen-rd-file
+      shell: bash
+      run: |
+        scai-gen rd file -n ${{ inputs.name }} -l ${{ inputs.location }} -t ${{ inputs.media-type }} -o ${{ inputs.path }}/${{ inputs.rd-name }} ${{ inputs.path }}/${{ inputs.name }}
+        echo "rd-name=${{ inputs.path }}/${{ inputs.rd-name }}" >> "$GITHUB_OUTPUT"
