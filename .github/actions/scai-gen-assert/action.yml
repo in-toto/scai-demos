@@ -6,7 +6,7 @@ inputs:
     required: true
     type: string
   evidence-file:
-    description: "The file containing the evidence. Note that this action assumes the evidence was an artifact uploaded during a previous step."
+    description: "The file containing the evidence. This action assumes the evidence was an artifact uploaded during a previous step."
     required: true
     type: string
   evidence-type:
@@ -38,7 +38,6 @@ runs:
       uses: marcelamelara/scai-demos/.github/actions/scai-gen-rd@add-scai-reusable-workflows
       with:
         name: "${{ inputs.evidence-file }}"
-        location: "theLocation"
         media-type: "${{ inputs.evidence-type }}"
         path: "${{ steps.get-evidence.outputs.download-path }}"
         rd-name: "${{ inputs.evidence-file }}-desc.json"
@@ -47,5 +46,5 @@ runs:
       id: scai-gen-assert
       shell: bash
       run: |
-        scai-gen assert -e ${{ steps.gen-rd.outputs.rd-name }} -o ${{ steps.get-evidence.outputs.download-path }}/${{ inputs.assertion-name }} ${{ inputs.attribute}}
+        scai-gen assert -e ${{ steps.gen-rd.outputs.file-rd-name }} -o ${{ steps.get-evidence.outputs.download-path }}/${{ inputs.assertion-name }} ${{ inputs.attribute}}
         echo "assertion-name=${{ steps.get-evidence.outputs.download-path }}/${{ inputs.assertion-name }}" >> "$GITHUB_OUTPUT"

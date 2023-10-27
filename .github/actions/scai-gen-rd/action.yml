@@ -1,45 +1,63 @@
 name: "in-toto ResourceDescriptor generator"
-description: "Generates an in-toto ResourceDescriptor from a file"
+description: "Generates an in-toto ResourceDescriptor for a local file or remote resource"
 inputs:
+  is_file:
+    description: "Flag indicating whether the resource is a local file or remote. Default is `is_file=true`."
+    required: false
+    default: 'true'
   name:
-    description: "The name of the resource file"
+    description: "The name of the resource file."
     required: true
-    type: string
+  path:
+    description: "The path to the resource file. Defaults to GITHUB_WORKSPACE."
+    required: false
+    default: "$GITHUB_WORKSPACE"
+  uri:
+    description: "The URI of the remote resource."
+    required: false
+    default: "https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
+  digest:
+    description: "The digest associated with the remote resource (hex-encoded)"
+    required: false
+    default: ""
+  hash-alg:
+    description: "The hash algorithm used to compute the digest associated with the remote resource."
+    required: false
+    default: "sha256"
   location:
     description: "The download location of the file"
-    required: true
-    type: string
+    required: false
+    default: "https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
   media-type:
     description: "The media type of the file"
-    required: true
-    type: string
-  path:
-    description: "The path to the resource file"
-    required: true
-    type: string
+    required: false
+    default: "text/plain"
   rd-name:
     description: "The name of the output ResourceDescriptor file. The file must have the .json extension."
     required: true
-    type: string
 outputs:
-  rd-name:
+  file-rd-name:
     description: "Filename of the generated ResourceDescriptor"
     value: ${{ steps.scai-gen-rd-file.outputs.rd-name }}
+  remote-rd-name:
+    description: "Filename of the generated ResourceDescriptor"
+    value: ${{ steps.scai-gen-rd-remote.outputs.rd-name }}
 
 runs:
   using: "composite"
   steps:
-    - name: Install Go
-      uses: actions/setup-go@93397bea11091df50f3d7e59dc26a7711a8bcfbe
-      with:
-        go-version: 1.20.x
-    - name: Get scai-gen CLI tools
-      shell: bash
-      run: |
-        go install github.com/in-toto/scai-demos/scai-gen@latest
     - name: Run scai-gen rd file
       id: scai-gen-rd-file
+      if: ${{ inputs.is_file == 'true' }}
       shell: bash
       run: |
         scai-gen rd file -n ${{ inputs.name }} -l ${{ inputs.location }} -t ${{ inputs.media-type }} -o ${{ inputs.path }}/${{ inputs.rd-name }} ${{ inputs.path }}/${{ inputs.name }}
+        echo "rd-name=${{ inputs.path }}/${{ inputs.rd-name }}" >> "$GITHUB_OUTPUT"
+
+    - name: Run scai-gen rd remote
+      id: scai-gen-rd-remote
+      if: ${{ inputs.is_file == 'false' }}
+      shell: bash
+      run: |
+        scai-gen rd remote -n ${{ inputs.name }} -d ${{ inputs.digest }} -g ${{ inputs.hash-alg }} -o ${{ inputs.path }}/${{ inputs.rd-name }} ${{ inputs.uri }}
         echo "rd-name=${{ inputs.path }}/${{ inputs.rd-name }}" >> "$GITHUB_OUTPUT"
