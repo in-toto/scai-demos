@@ -27,35 +27,25 @@ outputs:
 runs:
   using: "composite"
   steps:
-#    outputs:
-#      evidence-rd: ${{ steps.gen-rd.desc }}
-      - name: Get the evidence artifact
-        id: get-evidence
-        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
-        with:
-          name: "${{ inputs.evidence-file }}"
+    - name: Get the evidence artifact
+      id: get-evidence
+      uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
+      with:
+        name: "${{ inputs.evidence-file }}"
 
-      - name: Generate ResourceDescriptor for evidence
-        id: gen-rd
-        uses: marcelamelara/scai-demos/.github/actions/scai-gen-rd@add-scai-reusable-workflows
-        with:
-          name: "${{ inputs.evidence-file }}"
-          location: "theLocation"
-          media-type: "${{ inputs.evidence-type }}"
-          path: "${{ steps.get-evidence.outputs.download-path }}"
-          rd-name: "${{ inputs.evidence-file }}-desc.json"
+    - name: Generate ResourceDescriptor for evidence
+      id: gen-rd
+      uses: marcelamelara/scai-demos/.github/actions/scai-gen-rd@add-scai-reusable-workflows
+      with:
+        name: "${{ inputs.evidence-file }}"
+        location: "theLocation"
+        media-type: "${{ inputs.evidence-type }}"
+        path: "${{ steps.get-evidence.outputs.download-path }}"
+        rd-name: "${{ inputs.evidence-file }}-desc.json"
 
-      - name: Run scai-gen assert
-        id: scai-gen-assert
-        shell: bash
-        run: |
-          scai-gen assert -e ${{ steps.gen-rd.outputs.rd-name }} -o ${{ steps.get-evidence.outputs.download-path }}/${{ inputs.assertion-name }} ${{ inputs.attribute}}
-          echo "assertion-name=${{ steps.get-evidence.outputs.download-path }}/${{ inputs.assertion-name }}" >> "$GITHUB_OUTPUT"
-
-      - name: Upload the unsigned AttributeAssertion
-        id: upload-assert
-        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
-        with:
-          name: "${{ inputs.assertion-name }}"
-          path: "${{ inputs.assertion-name }}"
-          retention-days: 5
+    - name: Run scai-gen assert
+      id: scai-gen-assert
+      shell: bash
+      run: |
+        scai-gen assert -e ${{ steps.gen-rd.outputs.rd-name }} -o ${{ steps.get-evidence.outputs.download-path }}/${{ inputs.assertion-name }} ${{ inputs.attribute}}
+        echo "assertion-name=${{ steps.get-evidence.outputs.download-path }}/${{ inputs.assertion-name }}" >> "$GITHUB_OUTPUT"

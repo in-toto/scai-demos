@@ -1,0 +1,38 @@
+name: "scai-gen-report"
+description: "Generates a SCAI AttributeReport"
+inputs:
+  subject:
+    description: "The subject ResourceDescriptor. This action currently assumes a single subject."
+    required: true
+    type: string
+  attr-assertions:
+    description: "The names of the SCAI AttributeAssertions to be listed in the Report. This action assumes the Assertions were generated using the scai-gen-assert action."
+    required: true
+    type: string
+  report-name:
+    description: "The name of the AttributeReport file"
+    required: false
+    type: string
+    default: "scai-report.json"
+outputs:
+  report-name:
+    description: "Filename of the generated AttributeReport"
+    value: ${{ steps.scai-gen-report.outputs.report-name }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run scai-gen rd file
+      id: scai-gen-report
+      shell: bash
+      run: |
+        scai-gen report -s ${{ inputs.subject }} -o ${{ inputs.report-name }} ${{ inputs.attr-assertions }}
+        echo "report-name=${{ inputs.report-name }}" >> "$GITHUB_OUTPUT"
+
+    - name: Upload the unsigned AttributeReport
+      id: upload-assert
+      uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
+      with:
+        name: "${{ inputs.report-name }}"
+        path: "${{ inputs.report-name }}"
+        retention-days: 5
