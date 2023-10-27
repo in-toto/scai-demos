@@ -1,5 +1,5 @@
 name: "scai-gen-report"
-description: "Generates a SCAI AttributeReport"
+description: "Generates a signed SCAI AttributeReport"
 inputs:
   subject:
     description: "The subject ResourceDescriptor. This action currently assumes a single subject."
@@ -14,6 +14,10 @@ inputs:
     required: false
     type: string
     default: "scai-report.json"
+  report-path:
+    description: "The directory to place the in-toto SCAI predicate attestation"
+    required: false
+    default: "$GITHUB_WORKSPACE/attestations"
 outputs:
   report-name:
     description: "Filename of the generated AttributeReport"
@@ -26,13 +30,16 @@ runs:
       id: scai-gen-report
       shell: bash
       run: |
-        scai-gen report -s ${{ inputs.subject }} -o ${{ inputs.report-name }} ${{ inputs.attr-assertions }}
-        echo "report-name=${{ inputs.report-name }}" >> "$GITHUB_OUTPUT"
+        mkdir -p ${{ inputs.report-path }}
+        scai-gen report -s ${{ inputs.subject }} -o ${{ inputs.report-path }}/${{ inputs.report-name }} ${{ inputs.attr-assertions }}
+        scai-gen sigstore -o ${{ inputs.report-path }}/signed.${{ inputs.report-name }} ${{ inputs.report-path }}/${{ inputs.report-name }}
+        echo "report-name=${{ inputs.report-path }}/signed.${{ inputs.report-name }}" >> "$GITHUB_OUTPUT"
+        ls ${{ inputs.report-path }}
 
-    - name: Upload the unsigned AttributeReport
+    - name: Upload the signed SCAI AttributeReport
       id: upload-assert
       uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
       with:
-        name: "${{ inputs.report-name }}"
-        path: "${{ inputs.report-name }}"
-        retention-days: 5
+        name: signed.${{ inputs.report-name }}
+        path: ${{ steps.scai-gen-report.outputs.report-name }}
+        retention-days: 15

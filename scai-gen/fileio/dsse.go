@@ -42,3 +42,7 @@ func ReadStatementFromDSSEFile(path string) (*ita.Statement, error) {
 
 	return statement, nil
 }
+
+func WriteDSSEToFile(envBytes []byte, outFile string) error {
+	return os.WriteFile(outFile, envBytes, 0644) //nolint:gosec
+}
