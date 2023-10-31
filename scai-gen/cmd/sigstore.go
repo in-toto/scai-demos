@@ -15,9 +15,9 @@ import (
 	"github.com/sigstore/cosign/v2/cmd/cosign/cli/sign"
 	"github.com/sigstore/cosign/v2/pkg/providers"
 	"github.com/sigstore/sigstore/pkg/signature/dsse"
-	"github.com/spf13/cobra"
-	"github.com/slsa-framework/slsa-github-generator/signing/sigstore"
 	"github.com/slsa-framework/slsa-github-generator/signing/envelope"
+	"github.com/slsa-framework/slsa-github-generator/signing/sigstore"
+	"github.com/spf13/cobra"
 	"google.golang.org/protobuf/encoding/protojson"
 )
 
@@ -95,25 +95,25 @@ func signWithSigstore(cmd *cobra.Command, args []string) error {
 
 	attBytes, err := protojson.Marshal(statement)
 	if err != nil {
-		return fmt.Errorf("Error marshalling Statement: %w", err)
+		return fmt.Errorf("error marshalling Statement: %w", err)
 	}
 
 	k, err := getNewFulcioSigner(ctx)
 	if err != nil {
-		return fmt.Errorf("Error creating Fulcio signer: %w", err)
+		return fmt.Errorf("error creating Fulcio signer: %w", err)
 	}
 
 	dsseSigner := dsse.WrapSigner(k, "application/vnd.in-toto")
 	signedAtt, err := dsseSigner.SignMessage(bytes.NewReader(attBytes))
 	if err != nil {
-		return fmt.Errorf("Error signing DSSE: %w", err)
+		return fmt.Errorf("error signing DSSE: %w", err)
 	}
 
 	// Add certificate to envelope. This is needed for
 	// Rekor compatibility.
 	signedAttWithCert, err := envelope.AddCertToEnvelope(signedAtt, k.Cert)
 	if err != nil {
-		return fmt.Errorf("Error adding Fulcio certificate to DSSE: %w", err)
+		return fmt.Errorf("error adding Fulcio certificate to DSSE: %w", err)
 	}
 
 	tlog := sigstore.NewDefaultRekor()
@@ -122,7 +122,7 @@ func signWithSigstore(cmd *cobra.Command, args []string) error {
 		cert: k.Cert,
 	})
 	if err != nil {
-		return fmt.Errorf("Error uploading signed DSSE to public Rekor log: %w", err)
+		return fmt.Errorf("error uploading signed DSSE to public Rekor log: %w", err)
 	}
 
 	return fileio.WriteDSSEToFile(signedAtt, outFile)
