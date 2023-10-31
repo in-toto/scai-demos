@@ -32,14 +32,13 @@ runs:
       run: |
         mkdir -p ${{ inputs.report-path }}
         scai-gen report -s ${{ inputs.subject }} -o ${{ inputs.report-path }}/${{ inputs.report-name }} ${{ inputs.attr-assertions }}
-        scai-gen sigstore -o ${{ inputs.report-path }}/signed.${{ inputs.report-name }} ${{ inputs.report-path }}/${{ inputs.report-name }}
-        echo "report-name=${{ inputs.report-path }}/signed.${{ inputs.report-name }}" >> "$GITHUB_OUTPUT"
+        echo "report-name=${{ inputs.report-path }}/${{ inputs.report-name }}" >> "$GITHUB_OUTPUT"
         ls ${{ inputs.report-path }}
 
     - name: Upload the signed SCAI AttributeReport
       id: upload-assert
       uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
       with:
-        name: signed.${{ inputs.report-name }}
+        name: ${{ inputs.report-name }}
         path: ${{ steps.scai-gen-report.outputs.report-name }}
         retention-days: 15

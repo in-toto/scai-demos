@@ -1,0 +1,78 @@
+name: Test composite actions on SBOM+SLSA example
+on:
+  push:
+    branch:
+      - main
+    paths:
+      - "scai-gen/**"
+  # Want to trigger these tests whenever the Go CLI or
+  # APIs are modified
+  pull_request:
+    paths:
+      - "scai-gen/**"
+
+jobs:
+  sbom-slsa-ex:
+    runs-on: ubuntu-22.04
+    permissions:
+      id-token: write # Needed to sign
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@93397bea11091df50f3d7e59dc26a7711a8bcfbe
+        with:
+          go-version: 1.20.x
+
+      - name: Checkout updated scai-gen CLI tools
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+
+      - name: Setup Env
+        run: |
+          echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
+
+      - name: Install scai-gen CLI tools
+        shell: bash
+        run: |
+          go install ./scai-gen
+          mkdir -p temp
+
+      - name: Generate SBOM SCAI AttributeAssertion
+        id: gen-sbom-assert
+        uses: marcelamelara/scai-demos/.github/actions/scai-gen-assert@add-scai-reusable-workflows
+        with:
+          attribute: "HasSBOM"
+          evidence-file: "examples/sbom+slsa/metadata/pdo_client_wawaka.spdx.json"
+          evidence-type: "application/json"
+          download-evidence: false
+          assertion-name: "hassbom-assertion.json"
+
+      - name: Generate SLSA Provenance SCAI AttributeAssertion
+        id: gen-slsa-assert
+        uses: marcelamelara/scai-demos/.github/actions/scai-gen-assert@add-scai-reusable-workflows
+        with:
+          attribute: "HasSLSA"
+          evidence-file: "examples/sbom+slsa/metadata/pdo_client_wawaka.provenance.json"
+          evidence-type: "application/vnd.in-toto.provenance+dsse"
+          download-evidence: false
+          assertion-name: "hasslsa-assertion.json"
+
+      - name: Generate SCAI AttributeReport
+        id: gen-sbom-slsa-report
+        uses: marcelamelara/scai-demos/.github/actions/scai-gen-report@add-scai-reusable-workflows
+        with:
+          subject: "examples/sbom+slsa/metadata/container-img-desc.json"
+          attr-assertions: "${{ steps.gen-sbom-assert.outputs.assertion-name }} ${{ steps.gen-slsa-assert.outputs.assertion-name }}"
+          report-name: "evidence-collection.scai.json"
+            
+      - name: Sign and upload generated SCAI report (Sigstore)
+        id: sign-report
+        shell: bash
+        run: |
+          scai-gen sigstore -o ${{ steps.gen-sbom-slsa-report.outputs.report-name }}.sig ${{ steps.gen-sbom-slsa-report.outputs.report-name }}
+
+      - name: Upload the signed SCAI AttributeReport
+        id: upload-signed-report
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
+        with:
+          name: ${{ steps.gen-sbom-slsa-report.inputs.report-name }}.sig
+          path: ${{ steps.gen-sbom-slsa-report.outputs.report-name }}.sig
+          retention-days: 15
