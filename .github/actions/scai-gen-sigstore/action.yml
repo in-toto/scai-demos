@@ -1,0 +1,46 @@
+name: "in-toto Sigstore signer"
+description: "Generates a signed in-toto Attestation using cosign, and uploads it to the public Rekor log"
+inputs:
+  save-signed:
+    description: "Flag indicating whether to save the signed attestation as a local artifact (using actions/upload-artifact). Default is `save-signed=true`."
+    required: false
+    default: 'true'
+  statement-file:
+    description: "The name of the unsigned in-toto Statement file."
+    required: true
+  statement-path:
+    description: "The path to the statement-file. Defaults to GITHUB_WORKSPACE."
+    required: false
+    default: "$GITHUB_WORKSPACE"
+  signed-name:
+    description: "The name of the DSSE formatted signed in-toto Attestation file."
+    required: true
+  path:
+    description: "The directory to place the signed in-toto Attestation."
+    required: false
+    default: "$GITHUB_WORKSPACE/attestations"
+
+outputs:
+  attestation-name:
+    description: "Filename of the generated signed in-toto Attestation"
+    value: ${{ steps.sign.outputs.attestation-name }}
+    
+runs:
+  using: "composite"
+  steps:
+    - name: Sign and upload in-toto Statement
+      id: sign
+      shell: bash
+      run: |
+        mkdir -p ${{ inputs.path }}
+        scai-gen sigstore -o ${{ inputs.path}}/${{ inputs.signed-name }} ${{ inputs.statement-path }}/${{ inputs.statement-name }}
+        echo "attestation-name=${{ inputs.path }}/${{ inputs.signed-name }}" >> "$GITHUB_OUTPUT"
+
+    - name: Save the signed in-toto Attestation
+      if: ${{ inputs.save-signed == 'true' }}
+      id: upload-signed
+      uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
+      with:
+        name: ${{ steps.sign.inputs.signed-name }}
+        path: ${{ steps.sign.outputs.attestation-name }}
+        retention-days: 15

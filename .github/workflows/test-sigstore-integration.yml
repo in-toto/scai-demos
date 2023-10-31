@@ -1,0 +1,40 @@
+name: Test Sigstore integration
+on:
+  # Want to trigger these tests whenever the Sigstore command
+  # is modified and PR is closed because of OIDC token access
+  pull_request:
+    paths:
+      - "scai-gen/cmd/sigstore.go"
+    types:
+      - closed
+
+jobs:
+  sigstore:
+    runs-on: ubuntu-22.04
+    permissions:
+      id-token: write # Needed for signing
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@93397bea11091df50f3d7e59dc26a7711a8bcfbe
+        with:
+          go-version: 1.20.x
+
+      - name: Checkout updated scai-gen CLI tools
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+
+      - name: Setup Env
+        run: |
+          echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
+
+      - name: Install scai-gen CLI tools
+        shell: bash
+        run: |
+          go install ./scai-gen
+
+      - name: Sign and upload SCAI report (Sigstore)
+        id: sign-report
+        shell: bash
+        uses: marcelamelara/scai-demos/.github/actions/scai-gen-sigstore@add-scai-reusable-workflows
+        with:
+          statement-file: examples/sbom+slsa/metadata/evidence-collection.scai.json
+          signed-name: evidence-collection.scai.sig.json
