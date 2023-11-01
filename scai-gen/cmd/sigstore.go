@@ -73,6 +73,11 @@ func getNewFulcioSigner(ctx context.Context) (*fulcio.Signer, error) {
 func signWithSigstore(cmd *cobra.Command, args []string) error {
 	fmt.Println("EXPERIMENTAL FEATURE. DO NOT USE IN PRODUCTION.")
 
+	// want to make sure the DSSE is a JSON file
+	if !fileio.HasJSONExt(outFile) {
+		return fmt.Errorf("expected a .json extension for the generated DSSE file %s", outFile)
+	}
+
 	statementFile := args[0]
 	statement := &ita.Statement{}
 	err := fileio.ReadPbFromFile(statementFile, statement)

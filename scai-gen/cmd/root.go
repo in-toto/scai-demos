@@ -12,7 +12,10 @@ var rootCmd = &cobra.Command{
 	Short: "A CLI tool for generating/checking SCAI metadata",
 }
 
-var outFile string
+var (
+	outFile     string
+	prettyPrint bool
+)
 
 func init() {
 	rootCmd.AddCommand(rdCmd)
