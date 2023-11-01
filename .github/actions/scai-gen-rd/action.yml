@@ -1,8 +1,8 @@
 name: "in-toto ResourceDescriptor generator"
 description: "Generates an in-toto ResourceDescriptor for a local file or remote resource"
 inputs:
-  is_file:
-    description: "Flag indicating whether the resource is a local file or remote. Default is `is_file=true`."
+  is-file:
+    description: "Flag indicating whether the resource is a local file or remote. Default is `is-file=true`."
     required: false
     default: 'true'
   name:
@@ -35,6 +35,9 @@ inputs:
   rd-name:
     description: "The name of the output ResourceDescriptor file. The file must have the .json extension."
     required: true
+  rd-path:
+    description: "The path to save the generated descriptor"
+    default: "$GITHUB_WORKSPACE/temp"
 outputs:
   file-rd-name:
     description: "Filename of the generated ResourceDescriptor"
@@ -48,16 +51,18 @@ runs:
   steps:
     - name: Run scai-gen rd file
       id: scai-gen-rd-file
-      if: ${{ inputs.is_file == 'true' }}
+      if: ${{ inputs.is-file == 'true' }}
       shell: bash
       run: |
-        scai-gen rd file -n ${{ inputs.name }} -l ${{ inputs.location }} -t ${{ inputs.media-type }} -o ${{ inputs.path }}/${{ inputs.rd-name }} ${{ inputs.path }}/${{ inputs.name }}
-        echo "rd-name=${{ inputs.path }}/${{ inputs.rd-name }}" >> "$GITHUB_OUTPUT"
+        mkdir -p ${{ inputs.rd-path }}
+        scai-gen rd file -n ${{ inputs.name }} -l ${{ inputs.location }} -t ${{ inputs.media-type }} -o ${{ inputs.rd-path }}/${{ inputs.rd-name }} ${{ inputs.path }}/${{ inputs.name }}
+        echo "rd-name=${{ inputs.rd-path }}/${{ inputs.rd-name }}" >> "$GITHUB_OUTPUT"
 
     - name: Run scai-gen rd remote
       id: scai-gen-rd-remote
-      if: ${{ inputs.is_file == 'false' }}
+      if: ${{ inputs.is-file == 'false' }}
       shell: bash
       run: |
-        scai-gen rd remote -n ${{ inputs.name }} -d ${{ inputs.digest }} -g ${{ inputs.hash-alg }} -o ${{ inputs.path }}/${{ inputs.rd-name }} ${{ inputs.uri }}
-        echo "rd-name=${{ inputs.path }}/${{ inputs.rd-name }}" >> "$GITHUB_OUTPUT"
+        mkdir -p ${{ inputs.rd-path }}
+        scai-gen rd remote -n ${{ inputs.name }} -d ${{ inputs.digest }} -g ${{ inputs.hash-alg }} -o ${{ inputs.rd-path }}/${{ inputs.rd-name }} ${{ inputs.uri }}
+        echo "rd-name=${{ inputs.rd-path }}/${{ inputs.rd-name }}" >> "$GITHUB_OUTPUT"

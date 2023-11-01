@@ -12,10 +12,10 @@ inputs:
     description: "The path to the statement-file. Defaults to GITHUB_WORKSPACE."
     required: false
     default: "$GITHUB_WORKSPACE"
-  signed-name:
+  attestation-name:
     description: "The name of the DSSE formatted signed in-toto Attestation file."
     required: true
-  path:
+  attestation-path:
     description: "The directory to place the signed in-toto Attestation."
     required: false
     default: "$GITHUB_WORKSPACE/attestations"
@@ -32,15 +32,15 @@ runs:
       id: sign
       shell: bash
       run: |
-        mkdir -p ${{ inputs.path }}
-        scai-gen sigstore -o ${{ inputs.path}}/${{ inputs.signed-name }} ${{ inputs.statement-path }}/${{ inputs.statement-name }}
-        echo "attestation-name=${{ inputs.path }}/${{ inputs.signed-name }}" >> "$GITHUB_OUTPUT"
+        mkdir -p ${{ inputs.attestation-path }}
+        scai-gen sigstore -o ${{ inputs.attestation-path}}/${{ inputs.attestation-name }} ${{ inputs.statement-path }}/${{ inputs.statement-name }}
+        echo "attestation-name=${{ inputs.attestation-path }}/${{ inputs.attestation-name }}" >> "$GITHUB_OUTPUT"
 
     - name: Save the signed in-toto Attestation
       if: ${{ inputs.save-signed == 'true' }}
       id: upload-signed
       uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
       with:
-        name: ${{ steps.sign.inputs.signed-name }}
+        name: ${{ steps.sign.inputs.attestation-name }}
         path: ${{ steps.sign.outputs.attestation-name }}
         retention-days: 15

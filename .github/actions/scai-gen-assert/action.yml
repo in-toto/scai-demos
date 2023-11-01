@@ -7,6 +7,10 @@ inputs:
   evidence-file:
     description: "The file containing the evidence. This action assumes the evidence was an artifact uploaded during a previous step, unless otherwise specified."
     required: true
+  evidence-path:
+    description: "The path to the evidence file. Defaults to GITHUB_WORKSPACE."
+    required: false
+    default: "$GITHUB_WORKSPACE"
   evidence-type:
     description: "The media type of the evidence"
     required: optional
@@ -19,7 +23,7 @@ inputs:
     description: "The artifact name of the unsigned SCAI AttributeAssertion. The file must have the .json extension. Defaults to <attribute>-assert.json when not specified."
     required: false
     default: "scai-assertion.json"
-  path:
+  assertion-path:
     description: "The path to save the generated assertion"
     default: "$GITHUB_WORKSPACE/temp"
 outputs:
@@ -39,9 +43,10 @@ runs:
 
     - name: Generate ResourceDescriptor for evidence
       id: gen-rd
-      uses: marcelamelara/scai-demos/.github/actions/scai-gen-rd@add-scai-reusable-workflows
+      uses: ./.github/actions/scai-gen-rd
       with:
         name: "${{ inputs.evidence-file }}"
+        path: "${{ inputs.evidence-path }}"
         media-type: "${{ inputs.evidence-type }}"
         rd-name: "${{ inputs.evidence-file }}-desc.json"
 
@@ -49,6 +54,6 @@ runs:
       id: scai-gen-assert
       shell: bash
       run: |
-        mkdir -p ${{ inputs.path }}
-        scai-gen assert -e ${{ steps.gen-rd.outputs.file-rd-name }} -o ${{ inputs.path }}/${{ inputs.assertion-name }} ${{ inputs.attribute}}
-        echo "assertion-name=${{ inputs.path }}/${{ inputs.assertion-name }}" >> "$GITHUB_OUTPUT"
+        mkdir -p ${{ inputs.assertion-path }}
+        scai-gen assert -e ${{ steps.gen-rd.outputs.file-rd-name }} -o ${{ inputs.assertion-path }}/${{ inputs.assertion-name }} ${{ inputs.attribute}}
+        echo "assertion-name=${{ inputs.assertion-path }}/${{ inputs.assertion-name }}" >> "$GITHUB_OUTPUT"

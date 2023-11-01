@@ -4,20 +4,17 @@ inputs:
   subject:
     description: "The subject ResourceDescriptor. This action currently assumes a single subject."
     required: true
-    type: string
   attr-assertions:
     description: "The names of the SCAI AttributeAssertions to be listed in the Report. This action assumes the Assertions were generated using the scai-gen-assert action."
     required: true
-    type: string
   report-name:
     description: "The name of the AttributeReport file"
     required: false
-    type: string
     default: "scai-report.json"
   report-path:
     description: "The directory to place the in-toto SCAI predicate attestation"
     required: false
-    default: "$GITHUB_WORKSPACE/attestations"
+    default: "$GITHUB_WORKSPACE/temp"
 outputs:
   report-name:
     description: "Filename of the generated AttributeReport"

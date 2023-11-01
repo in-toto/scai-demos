@@ -35,27 +35,29 @@ jobs:
 
       - name: Generate SBOM SCAI AttributeAssertion
         id: gen-sbom-assert
-        uses: marcelamelara/scai-demos/.github/actions/scai-gen-assert@add-scai-reusable-workflows
+        uses: ./.github/actions/scai-gen-assert
         with:
           attribute: "HasSBOM"
-          evidence-file: "examples/sbom+slsa/metadata/pdo_client_wawaka.spdx.json"
+          evidence-file: "pdo_client_wawaka.spdx.json"
+          evidence-path: "examples/sbom+slsa/metadata"
           evidence-type: "application/json"
           download-evidence: false
           assertion-name: "hassbom-assertion.json"
 
       - name: Generate SLSA Provenance SCAI AttributeAssertion
         id: gen-slsa-assert
-        uses: marcelamelara/scai-demos/.github/actions/scai-gen-assert@add-scai-reusable-workflows
+        uses: ./.github/actions/scai-gen-assert
         with:
           attribute: "HasSLSA"
-          evidence-file: "examples/sbom+slsa/metadata/pdo_client_wawaka.provenance.json"
+          evidence-file: "pdo_client_wawaka.provenance.json"
+          evidence-path: "examples/sbom+slsa/metadata"
           evidence-type: "application/vnd.in-toto.provenance+dsse"
           download-evidence: false
           assertion-name: "hasslsa-assertion.json"
 
       - name: Generate SCAI AttributeReport
         id: gen-sbom-slsa-report
-        uses: marcelamelara/scai-demos/.github/actions/scai-gen-report@add-scai-reusable-workflows
+        uses: ./.github/actions/scai-gen-report
         with:
           subject: "examples/sbom+slsa/metadata/container-img-desc.json"
           attr-assertions: "${{ steps.gen-sbom-assert.outputs.assertion-name }} ${{ steps.gen-slsa-assert.outputs.assertion-name }}"
