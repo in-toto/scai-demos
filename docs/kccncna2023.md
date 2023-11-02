@@ -1,14 +1,14 @@
-# KubeCon NA '23 Demo
+# KubeCon + CloudNativeCon NA '23 Demo
 
-As part of the [in-toto Maintainer Track talk] at KubeCon NA '23, we present
-a demo of the in-toto Attestation Framework, SCAI, and the in-toto Attestation
-Verifier.
+As part of the [in-toto Maintainer Track talk] at KubeCon + CloudNativeCon NA
+'23, we present a demo of the in-toto Attestation Framework, SCAI, and the
+in-toto Attestation Verifier.
 
 ## Demo Setup
 
 The overall flow implemented in the demo is as follows:
 
-<img src="./images/scai-kubeconNA23-demo.png" alt="in-toto demo flow" width="600">
+<img src="./images/intoto-kccncna2023-demo.png" alt="in-toto demo flow" width="600">
 
 This demo setup is implemented using the [scai-gen GitHub Actions] in a Docker
 container build [demo workflow] for the Hyperledger Labs Private Data Objects
@@ -36,7 +36,7 @@ This demo makes use of the following additional tools:
 
 [Anchore SBOM generator]: https://github.com/anchore/sbom-action
 [attestation-verifier]: https://github.com/in-toto/attestation-verifier
-[demo workflow]: https://github.com/marcelamelara/private-data-objects/blob/kubeconNA23-intoto-demo/.github/workflows/kubeconNA23-intoto-demo.yml
+[demo workflow]: https://github.com/marcelamelara/private-data-objects/blob/intoto-kccncna2023-demo/.github/workflows/intoto-kccncna2023-demo.yml
 [in-toto Maintainer Track talk]: https://kccncna2023.sched.com/event/1R2mx
 [SLSA generic Provenance generator]: https://github.com/slsa-framework/slsa-github-generator
 [SLSA Provenance]: https://github.com/in-toto/attestation/blob/main/spec/predicates/provenance.md
