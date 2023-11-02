@@ -27,10 +27,8 @@ runs:
       id: scai-gen-report
       shell: bash
       run: |
-        mkdir -p ${{ inputs.report-path }}
-        scai-gen report -s ${{ inputs.subject }} -o ${{ inputs.report-path }}/${{ inputs.report-name }} ${{ inputs.attr-assertions }}
+        scai-gen report --subject ${{ inputs.subject }} --out-file ${{ inputs.report-path }}/${{ inputs.report-name }} --pretty-print ${{ inputs.attr-assertions }}
         echo "report-name=${{ inputs.report-path }}/${{ inputs.report-name }}" >> "$GITHUB_OUTPUT"
-        ls ${{ inputs.report-path }}
 
     - name: Upload the signed SCAI AttributeReport
       id: upload-assert

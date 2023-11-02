@@ -54,8 +54,7 @@ runs:
       if: ${{ inputs.is-file == 'true' }}
       shell: bash
       run: |
-        mkdir -p ${{ inputs.rd-path }}
-        scai-gen rd file -n ${{ inputs.name }} -l ${{ inputs.location }} -t ${{ inputs.media-type }} -o ${{ inputs.rd-path }}/${{ inputs.rd-name }} ${{ inputs.path }}/${{ inputs.name }}
+        scai-gen rd file --name ${{ inputs.name }} --download-location ${{ inputs.location }} --media-type ${{ inputs.media-type }} --out-file ${{ inputs.rd-path }}/${{ inputs.rd-name }} ${{ inputs.path }}/${{ inputs.name }}
         echo "rd-name=${{ inputs.rd-path }}/${{ inputs.rd-name }}" >> "$GITHUB_OUTPUT"
 
     - name: Run scai-gen rd remote
@@ -63,6 +62,5 @@ runs:
       if: ${{ inputs.is-file == 'false' }}
       shell: bash
       run: |
-        mkdir -p ${{ inputs.rd-path }}
-        scai-gen rd remote -n ${{ inputs.name }} -d ${{ inputs.digest }} -g ${{ inputs.hash-alg }} -o ${{ inputs.rd-path }}/${{ inputs.rd-name }} ${{ inputs.uri }}
+        scai-gen rd remote --name ${{ inputs.name }} --digest ${{ inputs.digest }} --hash-alg ${{ inputs.hash-alg }} --out-file ${{ inputs.rd-path }}/${{ inputs.rd-name }} ${{ inputs.uri }}
         echo "rd-name=${{ inputs.rd-path }}/${{ inputs.rd-name }}" >> "$GITHUB_OUTPUT"

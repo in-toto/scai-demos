@@ -43,7 +43,8 @@ runs:
 
     - name: Generate ResourceDescriptor for evidence
       id: gen-rd
-      uses: ./.github/actions/scai-gen-rd
+      # change to v0.2 tag when released
+      uses: in-toto/scai-demos/.github/actions/scai-gen-rd@main
       with:
         name: "${{ inputs.evidence-file }}"
         path: "${{ inputs.evidence-path }}"
@@ -54,6 +55,5 @@ runs:
       id: scai-gen-assert
       shell: bash
       run: |
-        mkdir -p ${{ inputs.assertion-path }}
-        scai-gen assert -e ${{ steps.gen-rd.outputs.file-rd-name }} -o ${{ inputs.assertion-path }}/${{ inputs.assertion-name }} ${{ inputs.attribute}}
+        scai-gen assert --evidence ${{ steps.gen-rd.outputs.file-rd-name }} --out-file ${{ inputs.assertion-path }}/${{ inputs.assertion-name }} ${{ inputs.attribute}}
         echo "assertion-name=${{ inputs.assertion-path }}/${{ inputs.assertion-name }}" >> "$GITHUB_OUTPUT"

@@ -75,14 +75,6 @@ func init() {
 		"The URI of the resource",
 	)
 
-	rdFileCmd.Flags().BoolVarP(
-		&withContent,
-		"content",
-		"c",
-		false,
-		"Flag to include the content of the file",
-	)
-
 	rdFileCmd.Flags().StringVarP(
 		&downloadLocation,
 		"download-location",
@@ -165,6 +157,11 @@ func readAnnotations(filename string) (*structpb.Struct, error) {
 }
 
 func genRdFromFile(_ *cobra.Command, args []string) error {
+	// want to make sure the ResourceDescriptor is a JSON file
+	if !fileio.HasJSONExt(outFile) {
+		return fmt.Errorf("expected a .json extension for the generated ResourceDescriptor file %s", outFile)
+	}
+
 	filename := args[0]
 	fileBytes, err := os.ReadFile(filename)
 	if err != nil {
@@ -203,10 +200,15 @@ func genRdFromFile(_ *cobra.Command, args []string) error {
 		return fmt.Errorf("invalid resource descriptor: %w", err)
 	}
 
-	return fileio.WritePbToFile(rd, outFile)
+	return fileio.WritePbToFile(rd, outFile, false)
 }
 
 func genRdForRemote(_ *cobra.Command, args []string) error {
+	// want to make sure the ResourceDescriptor is a JSON file
+	if !fileio.HasJSONExt(outFile) {
+		return fmt.Errorf("expected a .json extension for the generated ResourceDescriptor file %s", outFile)
+	}
+
 	remoteURI := args[0]
 
 	digestSet := make(map[string]string)
@@ -240,5 +242,5 @@ func genRdForRemote(_ *cobra.Command, args []string) error {
 		return fmt.Errorf("invalid resource descriptor: %w", err)
 	}
 
-	return fileio.WritePbToFile(rd, outFile)
+	return fileio.WritePbToFile(rd, outFile, false)
 }

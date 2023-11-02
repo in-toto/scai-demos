@@ -60,6 +60,11 @@ func init() {
 }
 
 func genAttrAssertion(_ *cobra.Command, args []string) error {
+	// want to make sure the AttributeAssertion is a JSON file
+	if !fileio.HasJSONExt(outFile) {
+		return fmt.Errorf("expected a .json extension for the generated SCAI AttributeAssertion file %s", outFile)
+	}
+
 	attribute := args[0]
 
 	var target *ita.ResourceDescriptor
@@ -101,5 +106,5 @@ func genAttrAssertion(_ *cobra.Command, args []string) error {
 		return fmt.Errorf("invalid SCAI attribute assertion: %w", err)
 	}
 
-	return fileio.WritePbToFile(aa, outFile)
+	return fileio.WritePbToFile(aa, outFile, false)
 }

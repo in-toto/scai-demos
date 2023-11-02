@@ -50,9 +50,22 @@ func init() {
 		"",
 		"The filename of the JSON-encoded producer resource descriptor",
 	)
+
+	reportCmd.Flags().BoolVarP(
+		&prettyPrint,
+		"pretty-print",
+		"y",
+		false,
+		"Flag to JSON pretty-print the generated Report",
+	)
 }
 
 func genAttrReport(_ *cobra.Command, args []string) error {
+	// want to make sure the Report is a JSON file
+	if !fileio.HasJSONExt(outFile) {
+		return fmt.Errorf("expected a .json extension for the generated in-toto Statement file %s", outFile)
+	}
+
 	attrAsserts := make([]*scai.AttributeAssertion, 0, len(args))
 	for _, attrAssertPath := range args {
 		aa := &scai.AttributeAssertion{}
@@ -117,5 +130,5 @@ func genAttrReport(_ *cobra.Command, args []string) error {
 		return fmt.Errorf("invalid in-toto Statement: %w", err)
 	}
 
-	return fileio.WritePbToFile(statement, outFile)
+	return fileio.WritePbToFile(statement, outFile, prettyPrint)
 }

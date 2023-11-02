@@ -32,8 +32,7 @@ runs:
       id: sign
       shell: bash
       run: |
-        mkdir -p ${{ inputs.attestation-path }}
-        scai-gen sigstore -o ${{ inputs.attestation-path}}/${{ inputs.attestation-name }} ${{ inputs.statement-path }}/${{ inputs.statement-name }}
+        scai-gen sigstore --out-file ${{ inputs.attestation-path}}/${{ inputs.attestation-name }} ${{ inputs.statement-path }}/${{ inputs.statement-name }}
         echo "attestation-name=${{ inputs.attestation-path }}/${{ inputs.attestation-name }}" >> "$GITHUB_OUTPUT"
 
     - name: Save the signed in-toto Attestation

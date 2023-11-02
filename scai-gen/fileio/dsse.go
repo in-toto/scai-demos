@@ -44,5 +44,10 @@ func ReadStatementFromDSSEFile(path string) (*ita.Statement, error) {
 }
 
 func WriteDSSEToFile(envBytes []byte, outFile string) error {
+	// ensure the out directory exists
+	if err := CreateOutDir(outFile); err != nil {
+		return fmt.Errorf("error creating output directory for file %s: %w", outFile, err)
+	}
+
 	return os.WriteFile(outFile, envBytes, 0644) //nolint:gosec
 }

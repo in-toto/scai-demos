@@ -32,15 +32,19 @@ for Python and Go environments.
 We encourage you to gain a basic understanding of the [SCAI specification]
 before using the scai-generator CLI tools in this repo.
 
+For a full demo of how to use the Go [scai-gen](scai-gen/) tools, read our
+[KubeCon + CloudNativeCon NA '23 doc].
+
 ## Disclaimer
 
 While the tools in this repo are conformant to the
 [in-toto Attestation Framework], they do not generate **authenticated** SCAI
 attestations. The example use cases in this repo are only provided for
-illustrative purposes.
+illustrative purposes, and should not be used in production.
 
 [in-toto Attestation Framework]: https://github.com/in-toto/attestation/tree/main/spec
 [intro doc]: docs/intro.md
+[KubeCon + CloudNativeCon NA '23]: docs/kccncna2023.md
 [usage doc]: docs/usage.md
 [SCAI specification]: https://github.com/in-toto/attestation/blob/main/spec/predicates/scai.md
 [SCAI spec doc]: https://arxiv.org/pdf/2210.05813.pdf
