@@ -35,7 +35,6 @@ jobs:
 
       - name: Sign and upload SCAI report (Sigstore)
         id: sign-report
-        shell: bash
         uses: ./.github/actions/scai-gen-sigstore
         with:
           statement-file: examples/sbom+slsa/metadata/evidence-collection.scai.json

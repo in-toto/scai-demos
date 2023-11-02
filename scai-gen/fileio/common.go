@@ -13,5 +13,5 @@ func HasJSONExt(filename string) bool {
 func CreateOutDir(filename string) error {
 	outDir := filepath.Dir(filename)
 
-	return os.MkdirAll(outDir, 0644)
+	return os.MkdirAll(outDir, 0755)
 }
