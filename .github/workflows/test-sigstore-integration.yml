@@ -37,5 +37,5 @@ jobs:
         id: sign-report
         uses: ./.github/actions/scai-gen-sigstore
         with:
-          statement-file: examples/sbom+slsa/metadata/evidence-collection.scai.json
+          statement-name: examples/sbom+slsa/metadata/evidence-collection.scai.json
           attestation-name: evidence-collection.scai.sig.json

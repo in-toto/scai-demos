@@ -5,7 +5,7 @@ inputs:
     description: "Flag indicating whether to save the signed attestation as a local artifact (using actions/upload-artifact). Default is `save-signed=true`."
     required: false
     default: 'true'
-  statement-file:
+  statement-name:
     description: "The name of the unsigned in-toto Statement file."
     required: true
   statement-path:

@@ -1,7 +1,7 @@
 name: Test composite actions on SBOM+SLSA example
 on:
   push:
-    branch:
+    branches:
       - main
     paths:
       - "scai-gen/**"
