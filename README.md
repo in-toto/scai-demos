@@ -44,7 +44,7 @@ illustrative purposes, and should not be used in production.
 
 [in-toto Attestation Framework]: https://github.com/in-toto/attestation/tree/main/spec
 [intro doc]: docs/intro.md
-[KubeCon + CloudNativeCon NA '23]: docs/kccncna2023.md
+[KubeCon + CloudNativeCon NA '23]: kccncna2023-demo/README.md
 [usage doc]: docs/usage.md
 [SCAI specification]: https://github.com/in-toto/attestation/blob/main/spec/predicates/scai.md
 [SCAI spec doc]: https://arxiv.org/pdf/2210.05813.pdf

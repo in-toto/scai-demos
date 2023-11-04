@@ -23,6 +23,7 @@ func init() {
 	rootCmd.AddCommand(reportCmd)
 	rootCmd.AddCommand(checkCmd)
 	rootCmd.AddCommand(sigstoreCmd)
+	rootCmd.AddCommand(rekorCmd)
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

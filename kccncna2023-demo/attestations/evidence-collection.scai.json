@@ -1,0 +1,50 @@
+{
+    "_type":  "https://in-toto.io/Statement/v1",
+    "subject":  [
+        {
+            "name":  "pdo_client_wawaka",
+            "uri":  "https://github.com/marcelamelara/private-data-objects/commit/4e07afbb37e24d5284c2163f3603d374a0926890",
+            "digest":  {
+                "sha256":  "954f60c5de3f3b9c21b9118e25bec793c4de916aa32af140acc5501db189db7b"
+            }
+        }
+    ],
+    "predicateType":  "https://in-toto.io/attestation/scai/attribute-report/v0.2",
+    "predicate":  {
+        "attributes":  [
+            {
+                "attribute":  "HasSBOM",
+                "evidence":  {
+                    "digest":  {
+                        "sha256":  "91fb7ee88077520df4fb256c5d029ff2a18eff7674fa5e5404d2fdf4dfd4132d"
+                    },
+                    "downloadLocation":  "https://github.com/marcelamelara/private-data-objects/actions/runs/6740185189",
+                    "mediaType":  "application/json",
+                    "name":  "pdo_client_wawaka.spdx.json"
+                }
+            },
+            {
+                "attribute":  "HasSLSA",
+                "evidence":  {
+                    "digest":  {
+                        "sha256":  "a9c0eab1ba043e5a52903adc33ec0241de2228fdee8d26fd12a5025df8a5f3b6"
+                    },
+                    "downloadLocation":  "https://github.com/marcelamelara/private-data-objects/actions/runs/6740185189",
+                    "mediaType":  "application/vnd.in-toto.provenance+dsse",
+                    "name":  "pdo_client_wawaka.slsa.intoto.jsonl"
+                }
+            },
+            {
+                "attribute":  "NonHermeticBuild",
+                "evidence":  {
+                    "digest":  {
+                        "sha256":  "e91566a34ef171ea6204d8776b2349d5a96e10833cb6905bb8bef7469a5a3348"
+                    },
+                    "downloadLocation":  "https://github.com/marcelamelara/private-data-objects/actions/runs/6740185189",
+                    "mediaType":  "text/plain",
+                    "name":  "strace.log"
+                }
+            }
+        ]
+    }
+}
