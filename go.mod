@@ -6,7 +6,7 @@ require (
 	github.com/google/cel-go v0.18.2
 	github.com/in-toto/attestation v0.1.1-0.20230815115951-858b99174793
 	github.com/in-toto/attestation-verifier v0.0.0-20231007025621-3193280f5194
-	github.com/secure-systems-lab/go-securesystemslib v0.7.0
+	github.com/secure-systems-lab/go-securesystemslib v0.8.0
 	github.com/sigstore/cosign/v2 v2.2.2
 	github.com/sigstore/sigstore v1.7.6
 	github.com/slsa-framework/slsa-github-generator v1.9.0
