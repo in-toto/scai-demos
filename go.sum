@@ -428,8 +428,8 @@ github.com/ianlancetaylor/demangle v0.0.0-20181102032728-5e5cf60278f6/go.mod h1:
 github.com/ianlancetaylor/demangle v0.0.0-20200824232613-28f6c0f3b639/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
 github.com/imdario/mergo v0.3.16 h1:wwQJbIsHYGMUyLSPrEq1CT16AhnhNJQ51+4fdHUnCl4=
 github.com/imdario/mergo v0.3.16/go.mod h1:WBLT9ZmE3lPoWsEzCh9LPo3TiwVN+ZKEjmz+hD27ysY=
-github.com/in-toto/attestation v0.1.1-0.20230815115951-858b99174793 h1:gt+nMMQ4HzkrnXkdKgUGePvaWKRvuKgvpLNPwykN5Po=
-github.com/in-toto/attestation v0.1.1-0.20230815115951-858b99174793/go.mod h1:hCR5COCuENh5+VfojEkJnt7caOymbEgvyZdKifD6pOw=
+github.com/in-toto/attestation v1.0.1 h1:DgX1XuBkryTpj1Piq8AiMK3CMfEcec3Qv6+Ku+uI3WY=
+github.com/in-toto/attestation v1.0.1/go.mod h1:hCR5COCuENh5+VfojEkJnt7caOymbEgvyZdKifD6pOw=
 github.com/in-toto/attestation-verifier v0.0.0-20231007025621-3193280f5194 h1:/6Eg0GCBxSt+DQupjAjrkFOj+YMDreuNp3sWHS5Lglw=
 github.com/in-toto/attestation-verifier v0.0.0-20231007025621-3193280f5194/go.mod h1:AGDneTh/fuy+eZrY2sH+MB0nVGEvnUqd+GeyQDGTNR0=
 github.com/in-toto/in-toto-golang v0.9.0 h1:tHny7ac4KgtsfrG6ybU8gVOZux2H8jN05AXJ9EBM1XU=
