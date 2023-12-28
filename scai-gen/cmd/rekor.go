@@ -9,6 +9,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/in-toto/scai-demos/scai-gen/fileio"
 	"github.com/spf13/cobra"
 )
 
@@ -19,7 +20,18 @@ var rekorCmd = &cobra.Command{
 	RunE:  parseRekorEntry,
 }
 
-func parseRekorEntry(cmd *cobra.Command, args []string) error {
+func init() {
+	rekorCmd.Flags().StringVarP(
+		&outFile,
+		"out-file",
+		"o",
+		"",
+		"Filename to write out the JSON-encoded object",
+	)
+	reportCmd.MarkFlagRequired("out-file") //nolint:errcheck
+}
+
+func parseRekorEntry(_ *cobra.Command, args []string) error {
 	fmt.Println("EXPERIMENTAL FEATURE. DO NOT USE IN PRODUCTION.")
 
 	entryFile := args[0]
@@ -49,9 +61,13 @@ func parseRekorEntry(cmd *cobra.Command, args []string) error {
 				return fmt.Errorf("error decoding base64-encoded public key: %w", err)
 			}
 
-			// lazy
-			fmt.Println(string(pkPem))
-			return nil
+			// dedup
+			// ensure the out directory exists
+			if err = fileio.CreateOutDir(outFile); err != nil {
+				return fmt.Errorf("error creating output directory for file %s: %w", outFile, err)
+			}
+
+			return os.WriteFile(outFile, pkPem, 0644) //nolint:gosec
 		}
 	}
 
