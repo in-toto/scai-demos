@@ -1,0 +1,6 @@
+attestationID: "f7dbd9211f8c9ee70313454ddba0ffacec91139ff325b3ef90eccf706bd06ecf"
+inspections:
+  - name: "build.452e628a.json"
+    expectedAttributes:
+      - rule: "assertion.attribute == 'HasSLSA' && predicateType == 'https://slsa.dev/provenance/v0.2'"
+      - rule: "predicate.buildType == 'https://github.com/slsa-framework/slsa-github-generator/generic@v1'"
