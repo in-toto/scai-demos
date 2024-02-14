@@ -1,15 +1,11 @@
 package cmd
 
 import (
-	"encoding/hex"
 	"fmt"
-	"os"
-	"strings"
 
-	"github.com/in-toto/scai-demos/scai-gen/fileio"
-	"github.com/in-toto/scai-demos/scai-gen/policy"
+	"github.com/in-toto/scai-demos/scai-gen/pkg/fileio"
+	"github.com/in-toto/scai-demos/scai-gen/pkg/generators"
 
-	ita "github.com/in-toto/attestation/go/v1"
 	"github.com/spf13/cobra"
 	"google.golang.org/protobuf/types/known/structpb"
 )
@@ -163,41 +159,15 @@ func genRdFromFile(_ *cobra.Command, args []string) error {
 	}
 
 	filename := args[0]
-	fileBytes, err := os.ReadFile(filename)
-	if err != nil {
-		return fmt.Errorf("error reading resource file: %w", err)
-	}
-
-	var content []byte
-	if withContent {
-		content = fileBytes
-	}
-
-	sha256Digest := hex.EncodeToString(policy.GenSHA256(fileBytes))
-
-	rdName := filename
-	if len(name) > 0 {
-		rdName = name
-	}
 
 	annotations, err := readAnnotations(annotationsFile)
 	if err != nil {
 		return fmt.Errorf("error reading annotations file: %w", err)
 	}
 
-	rd := &ita.ResourceDescriptor{
-		Name:             rdName,
-		Uri:              uri,
-		Digest:           map[string]string{"sha256": strings.ToLower(sha256Digest)},
-		Content:          content,
-		DownloadLocation: downloadLocation,
-		MediaType:        mediaType,
-		Annotations:      annotations,
-	}
-
-	err = rd.Validate()
+	rd, err := generators.NewRdForFile(filename, name, uri, hashAlg, withContent, mediaType, downloadLocation, annotations)
 	if err != nil {
-		return fmt.Errorf("invalid resource descriptor: %w", err)
+		return fmt.Errorf("error generating RD: %w", err)
 	}
 
 	return fileio.WritePbToFile(rd, outFile, false)
@@ -211,35 +181,14 @@ func genRdForRemote(_ *cobra.Command, args []string) error {
 
 	remoteURI := args[0]
 
-	digestSet := make(map[string]string)
-	if len(digest) > 0 {
-		// the in-toto spec expects a hex-encoded string in DigestSets
-		// https://github.com/in-toto/attestation/blob/main/spec/v1/digest_set.md
-		_, err := hex.DecodeString(digest)
-		if err != nil {
-			return fmt.Errorf("digest is not valid hex-encoded string: %w", err)
-		}
-
-		// we can assume that we have both variables set at this point
-		digestSet = map[string]string{hashAlg: strings.ToLower(digest)}
-	}
-
 	annotations, err := readAnnotations(annotationsFile)
 	if err != nil {
 		return fmt.Errorf("error reading annotations file: %w", err)
 	}
 
-	rd := &ita.ResourceDescriptor{
-		Name:             name,
-		Uri:              remoteURI,
-		Digest:           digestSet,
-		DownloadLocation: downloadLocation,
-		Annotations:      annotations,
-	}
-
-	err = rd.Validate()
+	rd, err := generators.NewRdForRemote(remoteURI, name, hashAlg, digest, downloadLocation, annotations)
 	if err != nil {
-		return fmt.Errorf("invalid resource descriptor: %w", err)
+		return fmt.Errorf("error generating RD: %w", err)
 	}
 
 	return fileio.WritePbToFile(rd, outFile, false)

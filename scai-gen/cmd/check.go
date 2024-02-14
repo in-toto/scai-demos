@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/in-toto/scai-demos/scai-gen/fileio"
-	"github.com/in-toto/scai-demos/scai-gen/policy"
+	"github.com/in-toto/scai-demos/scai-gen/pkg/fileio"
+	"github.com/in-toto/scai-demos/scai-gen/pkg/policy"
 
 	"github.com/in-toto/attestation-verifier/verifier"
 	scai "github.com/in-toto/attestation/go/predicates/scai/v0"
