@@ -8,6 +8,8 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 )
 
+// Generates a SCAI v0 AttributeAssertion struct.
+// Throws an error if the resulting AttributeAssertion does not meet the spec.
 func NewSCAIAssertion(attribute string, target *ita.ResourceDescriptor, conditions *structpb.Struct, evidence *ita.ResourceDescriptor) (*scai.AttributeAssertion, error) {
 	aa := &scai.AttributeAssertion{
 		Attribute:  attribute,
@@ -24,6 +26,8 @@ func NewSCAIAssertion(attribute string, target *ita.ResourceDescriptor, conditio
 	return aa, nil
 }
 
+// Generates a SCAI v0 AttributeReport struct to be used as an in-toto attestation predicate.
+// Throws an error if the resulting AttributeReport does not meet the spec.
 func NewSCAIReport(attrAssertions []*scai.AttributeAssertion, producer *ita.ResourceDescriptor) (*scai.AttributeReport, error) {
 	ar := &scai.AttributeReport{
 		Attributes: attrAssertions,

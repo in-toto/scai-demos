@@ -162,12 +162,12 @@ func genRdFromFile(_ *cobra.Command, args []string) error {
 
 	annotations, err := readAnnotations(annotationsFile)
 	if err != nil {
-		return fmt.Errorf("error reading annotations file: %w", err)
+		return fmt.Errorf("unable to read annotations file: %w", err)
 	}
 
 	rd, err := generators.NewRdForFile(filename, name, uri, hashAlg, withContent, mediaType, downloadLocation, annotations)
 	if err != nil {
-		return fmt.Errorf("error generating RD: %w", err)
+		return fmt.Errorf("unable to generate RD: %w", err)
 	}
 
 	return fileio.WritePbToFile(rd, outFile, false)
@@ -183,12 +183,12 @@ func genRdForRemote(_ *cobra.Command, args []string) error {
 
 	annotations, err := readAnnotations(annotationsFile)
 	if err != nil {
-		return fmt.Errorf("error reading annotations file: %w", err)
+		return fmt.Errorf("unable to read annotations file: %w", err)
 	}
 
 	rd, err := generators.NewRdForRemote(remoteURI, name, hashAlg, digest, downloadLocation, annotations)
 	if err != nil {
-		return fmt.Errorf("error generating RD: %w", err)
+		return fmt.Errorf("unable to generate RD: %w", err)
 	}
 
 	return fileio.WritePbToFile(rd, outFile, false)

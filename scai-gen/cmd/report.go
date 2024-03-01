@@ -91,7 +91,7 @@ func genAttrReport(_ *cobra.Command, args []string) error {
 
 	ar, err := generators.NewSCAIReport(attrAsserts, producer)
 	if err != nil {
-		return fmt.Errorf("error generating SCAI Report: %w", err)
+		return fmt.Errorf("unable to generate SCAI Report: %w", err)
 	}
 
 	// then, plug the Report into an in-toto Statement
@@ -117,7 +117,7 @@ func genAttrReport(_ *cobra.Command, args []string) error {
 
 	statement, err := generators.NewStatement([]*ita.ResourceDescriptor{subject}, "https://in-toto.io/attestation/scai/attribute-report/v0.2", reportStruct)
 	if err != nil {
-		return fmt.Errorf("error generating in-toto Statement: %w", err)
+		return fmt.Errorf("unable to generate in-toto Statement: %w", err)
 	}
 
 	return fileio.WritePbToFile(statement, outFile, prettyPrint)

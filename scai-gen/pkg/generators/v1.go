@@ -12,7 +12,9 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 )
 
-func NewRdForFile(filename string, name string, uri string, hashAlg string, withContent bool, mediaType string, downloadLocation string, annotations *structpb.Struct) (*ita.ResourceDescriptor, error) {
+// Generates an in-toto Attestation Framework v1 ResourceDescriptor for a local file, including its digest (default sha256).
+// Throws an error if the resulting ResourceDescriptor does not meet the spec.
+func NewRdForFile(filename, name, uri, hashAlg string, withContent bool, mediaType, downloadLocation string, annotations *structpb.Struct) (*ita.ResourceDescriptor, error) {
 	fileBytes, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, fmt.Errorf("error reading resource file: %w", err)
@@ -55,17 +57,12 @@ func NewRdForFile(filename string, name string, uri string, hashAlg string, with
 	return rd, nil
 }
 
-func NewRdForRemote(name string, uri string, hashAlg string, digest string, downloadLocation string, annotations *structpb.Struct) (*ita.ResourceDescriptor, error) {
+// Generates an in-toto Attestation Framework v1 ResourceDescriptor for a remote resource identified by a name or URI).
+// Does not check if the URI resolves to a valid remote location.
+// Throws an error if the resulting ResourceDescriptor does not meet the spec.
+func NewRdForRemote(name, uri, hashAlg, digest, downloadLocation string, annotations *structpb.Struct) (*ita.ResourceDescriptor, error) {
 	digestSet := make(map[string]string)
-	if len(digest) > 0 {
-		// the in-toto spec expects a hex-encoded string in DigestSets
-		// https://github.com/in-toto/attestation/blob/main/spec/v1/digest_set.md
-		_, err := hex.DecodeString(digest)
-		if err != nil {
-			return nil, fmt.Errorf("digest is not valid hex-encoded string: %w", err)
-		}
-
-		// we can assume that we have both variables set at this point
+	if len(hashAlg) > 0 && len(digest) > 0 {
 		digestSet = map[string]string{hashAlg: strings.ToLower(digest)}
 	}
 
@@ -85,6 +82,8 @@ func NewRdForRemote(name string, uri string, hashAlg string, digest string, down
 	return rd, nil
 }
 
+// Generates an in-toto Attestation Framework v1 Statement including a given predicate.
+// Throws an error if the resulting Statement does not meet the spec.
 func NewStatement(subjects []*ita.ResourceDescriptor, predicateType string, predicate *structpb.Struct) (*ita.Statement, error) {
 	statement := &ita.Statement{
 		Type:          ita.StatementTypeUri,

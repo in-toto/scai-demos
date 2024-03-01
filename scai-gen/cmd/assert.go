@@ -96,7 +96,7 @@ func genAttrAssertion(_ *cobra.Command, args []string) error {
 
 	aa, err := generators.NewSCAIAssertion(attribute, target, conditions, evidence)
 	if err != nil {
-		return fmt.Errorf("error generating SCAI attribute assertion: %w", err)
+		return fmt.Errorf("unable to generate SCAI attribute assertion: %w", err)
 	}
 
 	return fileio.WritePbToFile(aa, outFile, false)
