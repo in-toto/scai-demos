@@ -3,9 +3,9 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/in-toto/scai-demos/scai-gen/fileio"
+	"github.com/in-toto/scai-demos/scai-gen/pkg/fileio"
+	"github.com/in-toto/scai-demos/scai-gen/pkg/generators"
 
-	scai "github.com/in-toto/attestation/go/predicates/scai/v0"
 	ita "github.com/in-toto/attestation/go/v1"
 	"github.com/spf13/cobra"
 	"google.golang.org/protobuf/types/known/structpb"
@@ -94,16 +94,9 @@ func genAttrAssertion(_ *cobra.Command, args []string) error {
 		}
 	}
 
-	aa := &scai.AttributeAssertion{
-		Attribute:  attribute,
-		Target:     target,
-		Conditions: conditions,
-		Evidence:   evidence,
-	}
-
-	err := aa.Validate()
+	aa, err := generators.NewSCAIAssertion(attribute, target, conditions, evidence)
 	if err != nil {
-		return fmt.Errorf("invalid SCAI attribute assertion: %w", err)
+		return fmt.Errorf("unable to generate SCAI attribute assertion: %w", err)
 	}
 
 	return fileio.WritePbToFile(aa, outFile, false)

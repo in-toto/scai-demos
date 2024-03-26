@@ -33,7 +33,7 @@ $(VENVDIR):
 py-venv: $(VENVDIR) $(PYTHON_DIR)
 
 go-mod:
-	cd ./go && go build && go install
+	cd ./scai-gen && go build && go install
 
 clean:
 	@echo REMOVE SCAI VENV AND PYTHON LIB DIRS
