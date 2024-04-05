@@ -18,9 +18,9 @@ For information on how to use our CLI tools in [Python] or [Go] environments,
 please refer to their instructions.
 
 [in-toto Statement]: https://github.com/in-toto/attestation/blob/main/spec/v1/statement.md
-[Resource Descriptors]: https://github.com/in-toto/attestation/blob/main/spec/v1/resource_descriptor.md
-[Attribute Assertions]: https://github.com/in-toto/attestation/blob/main/protos/in_toto_attestation/predicates/scai/v0/scai.proto#L16
+[ResourceDescriptors]: https://github.com/in-toto/attestation/blob/main/spec/v1/resource_descriptor.md
+[AttributeAssertions]: https://github.com/in-toto/attestation/blob/main/protos/in_toto_attestation/predicates/scai/v0/scai.proto#L16
 [Report]: https://github.com/in-toto/attestation/blob/main/protos/in_toto_attestation/predicates/scai/v0/scai.proto#L28
 [SCAI specification]: https://github.com/in-toto/attestation/blob/main/spec/predicates/scai.md
-[Go]: ../go/README.md
+[Go]: ../scai-gen/README.md
 [Python]: ../python/README.md

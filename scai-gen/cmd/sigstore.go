@@ -7,7 +7,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/in-toto/scai-demos/scai-gen/fileio"
+	"github.com/in-toto/scai-demos/scai-gen/pkg/fileio"
 
 	ita "github.com/in-toto/attestation/go/v1"
 	"github.com/sigstore/cosign/v2/cmd/cosign/cli/fulcio"

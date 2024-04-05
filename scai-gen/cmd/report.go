@@ -3,7 +3,8 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/in-toto/scai-demos/scai-gen/fileio"
+	"github.com/in-toto/scai-demos/scai-gen/pkg/fileio"
+	"github.com/in-toto/scai-demos/scai-gen/pkg/generators"
 
 	scai "github.com/in-toto/attestation/go/predicates/scai/v0"
 	ita "github.com/in-toto/attestation/go/v1"
@@ -87,14 +88,10 @@ func genAttrReport(_ *cobra.Command, args []string) error {
 	}
 
 	// first, generate the SCAI Report
-	ar := &scai.AttributeReport{
-		Attributes: attrAsserts,
-		Producer:   producer,
-	}
 
-	err := ar.Validate()
+	ar, err := generators.NewSCAIReport(attrAsserts, producer)
 	if err != nil {
-		return fmt.Errorf("invalid SCAI attribute report: %w", err)
+		return fmt.Errorf("unable to generate SCAI Report: %w", err)
 	}
 
 	// then, plug the Report into an in-toto Statement
@@ -118,16 +115,9 @@ func genAttrReport(_ *cobra.Command, args []string) error {
 		return err
 	}
 
-	statement := &ita.Statement{
-		Type:          ita.StatementTypeUri,
-		Subject:       []*ita.ResourceDescriptor{subject},
-		PredicateType: "https://in-toto.io/attestation/scai/attribute-report/v0.2",
-		Predicate:     reportStruct,
-	}
-
-	err = statement.Validate()
+	statement, err := generators.NewStatement([]*ita.ResourceDescriptor{subject}, "https://in-toto.io/attestation/scai/attribute-report/v0.2", reportStruct)
 	if err != nil {
-		return fmt.Errorf("invalid in-toto Statement: %w", err)
+		return fmt.Errorf("unable to generate in-toto Statement: %w", err)
 	}
 
 	return fileio.WritePbToFile(statement, outFile, prettyPrint)
