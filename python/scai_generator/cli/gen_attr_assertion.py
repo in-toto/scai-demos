@@ -28,8 +28,6 @@ from in_toto_attestation.v1.resource_descriptor import ResourceDescriptor
 
 import google.protobuf.json_format as pb_json
 
-from securesystemslib.util import get_file_hashes
-
 def Main():
     parser = argparse.ArgumentParser(allow_abbrev=False)
 

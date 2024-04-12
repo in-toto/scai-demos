@@ -23,7 +23,7 @@ $(PYTHON_DIR):
 	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade pip
 	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade wheel
 	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade in-toto
-	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade in-toto-attestation>=0.9.2
+	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade in-toto-attestation>=0.9.3
 	. $(abspath $(VENVDIR)/bin/activate) && pip install --upgrade ./python
 
 $(VENVDIR):
