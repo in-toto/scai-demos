@@ -23,7 +23,7 @@ import os
 from scai_generator.utility import load_json_file
 from in_toto_attestation.v1.resource_descriptor import ResourceDescriptor
 
-from securesystemslib.util import get_file_hashes
+from securesystemslib.hash import digest_filename
 import google.protobuf.json_format as pb_json
 
 def Main():
@@ -57,7 +57,10 @@ def Main():
     
     resource_digest_set = {}
     if options.digest and resource_file_path:
-        resource_digest_set = get_file_hashes(resource_file_path)
+        # we're ok with using the default hash algorithm (sha256)
+        hash_obj = digest_filename(resource_file_path)
+        # convert the hash object into a digest set
+        resource_digest_set.update({hash_obj.name: hash_obj.hexdigest()})
 
     resource_bytes = bytes()
     if options.content and resource_file_path:

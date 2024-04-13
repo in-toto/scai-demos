@@ -3,7 +3,6 @@
 # Copyright 2023 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
 
-VENV_DIR="${VENVDIR:=../../scai-venv}"
 EXAMPLE_DIR=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 
 # -----------------------------------------------------------------
@@ -11,8 +10,6 @@ EXAMPLE_DIR=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 # -----------------------------------------------------------------
 
 mkdir -p ${EXAMPLE_DIR}/metadata
-
-source ${VENV_DIR}/bin/activate
 
 echo RUN GCC
 
