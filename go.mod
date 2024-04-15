@@ -6,7 +6,7 @@ toolchain go1.21.5
 
 require (
 	github.com/google/cel-go v0.20.1
-	github.com/in-toto/attestation v1.0.1
+	github.com/in-toto/attestation v1.0.2
 	github.com/in-toto/attestation-verifier v0.0.0-20231007025621-3193280f5194
 	github.com/secure-systems-lab/go-securesystemslib v0.8.0
 	github.com/sigstore/cosign/v2 v2.2.4
