@@ -13,7 +13,7 @@ require (
 	github.com/sigstore/sigstore v1.8.3
 	github.com/slsa-framework/slsa-github-generator v1.10.0
 	github.com/spf13/cobra v1.8.0
-	google.golang.org/protobuf v1.33.0
+	google.golang.org/protobuf v1.34.1
 	gopkg.in/yaml.v3 v3.0.1
 )
 
