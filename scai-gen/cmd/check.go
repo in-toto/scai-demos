@@ -294,11 +294,7 @@ func isSupportedPredicateType(predicateType string) bool {
 		idx := slices.IndexFunc(supportedTypes, func(v string) bool {
 			return v == version
 		})
-
-		if idx > -1 {
-			return true
-		}
-		return false
+		return idx > -1
 	}
 	return false
 }
