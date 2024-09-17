@@ -1,6 +1,9 @@
 module github.com/in-toto/scai-demos
 
-go 1.21
+go 1.22.5
+
+toolchain go1.22.6
+
 require (
 	github.com/google/cel-go v0.21.0
 	github.com/in-toto/attestation v1.1.0

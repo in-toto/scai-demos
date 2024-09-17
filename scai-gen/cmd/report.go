@@ -23,6 +23,7 @@ var reportCmd = &cobra.Command{
 var (
 	subjectFile  string
 	producerFile string
+	version      string
 )
 
 func init() {
@@ -50,6 +51,14 @@ func init() {
 		"p",
 		"",
 		"The filename of the JSON-encoded producer resource descriptor",
+	)
+
+	reportCmd.Flags().StringVarP(
+		&version,
+		"version",
+		"v",
+		"v0.3",
+		"The spec version to generate for the generated attribute report",
 	)
 
 	reportCmd.Flags().BoolVarP(
@@ -115,7 +124,16 @@ func genAttrReport(_ *cobra.Command, args []string) error {
 		return err
 	}
 
-	statement, err := generators.NewStatement([]*ita.ResourceDescriptor{subject}, "https://in-toto.io/attestation/scai/attribute-report/v0.2", reportStruct)
+	// TODO: a future version of the scai Go package will have a const for this URI
+	predicateType := "https://in-toto.io/attestation/scai/"
+	if version == "v0.2" {
+		suffix := "attribute-report/v0.2"
+		predicateType += suffix
+	} else {
+		predicateType += version
+	}
+
+	statement, err := generators.NewStatement([]*ita.ResourceDescriptor{subject}, predicateType, reportStruct)
 	if err != nil {
 		return fmt.Errorf("unable to generate in-toto Statement: %w", err)
 	}
