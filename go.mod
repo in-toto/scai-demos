@@ -1,15 +1,13 @@
 module github.com/in-toto/scai-demos
 
 go 1.21
-toolchain go1.22.8
-
 require (
 	github.com/google/cel-go v0.21.0
 	github.com/in-toto/attestation v1.1.0
 	github.com/in-toto/attestation-verifier v0.0.0-20231007025621-3193280f5194
 	github.com/secure-systems-lab/go-securesystemslib v0.8.0
 	github.com/sigstore/cosign/v2 v2.4.1
-	github.com/sigstore/sigstore v1.8.9
+	github.com/sigstore/sigstore v1.8.10
 	github.com/slsa-framework/slsa-github-generator v1.10.0
 	github.com/spf13/cobra v1.8.1
 	google.golang.org/protobuf v1.35.1
@@ -184,15 +182,15 @@ require (
 	go.step.sm/crypto v0.51.2 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
-	golang.org/x/crypto v0.27.0 // indirect
+	golang.org/x/crypto v0.28.0 // indirect
 	golang.org/x/exp v0.0.0-20240613232115-7f521ea00fb8 // indirect
 	golang.org/x/mod v0.20.0 // indirect
 	golang.org/x/net v0.28.0 // indirect
 	golang.org/x/oauth2 v0.23.0 // indirect
 	golang.org/x/sync v0.8.0 // indirect
-	golang.org/x/sys v0.25.0 // indirect
-	golang.org/x/term v0.24.0 // indirect
-	golang.org/x/text v0.18.0 // indirect
+	golang.org/x/sys v0.26.0 // indirect
+	golang.org/x/term v0.25.0 // indirect
+	golang.org/x/text v0.19.0 // indirect
 	golang.org/x/time v0.6.0 // indirect
 	google.golang.org/api v0.196.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20240827150818-7e3bb234dfed // indirect
