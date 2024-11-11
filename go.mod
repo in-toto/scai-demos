@@ -1,6 +1,8 @@
 module github.com/in-toto/scai-demos
 
 go 1.21
+toolchain go1.22.9
+
 require (
 	github.com/google/cel-go v0.21.0
 	github.com/in-toto/attestation v1.1.0
@@ -101,7 +103,7 @@ require (
 	github.com/go-openapi/validate v0.24.0 // indirect
 	github.com/go-piv/piv-go v1.11.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
-	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
+	github.com/golang-jwt/jwt/v4 v4.5.1 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
