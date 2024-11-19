@@ -1,6 +1,6 @@
 module github.com/in-toto/scai-demos
 
-go 1.22.5
+go 1.22.8
 
 toolchain go1.22.9
 
