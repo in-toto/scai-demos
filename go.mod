@@ -9,7 +9,7 @@ require (
 	github.com/in-toto/attestation-verifier v0.0.0-20231007025621-3193280f5194
 	github.com/secure-systems-lab/go-securesystemslib v0.9.0
 	github.com/sigstore/cosign/v2 v2.4.1
-	github.com/sigstore/sigstore v1.8.10
+	github.com/sigstore/sigstore v1.8.11
 	github.com/slsa-framework/slsa-github-generator v1.10.0
 	github.com/spf13/cobra v1.8.1
 	google.golang.org/protobuf v1.36.0
@@ -189,7 +189,7 @@ require (
 	golang.org/x/exp v0.0.0-20240613232115-7f521ea00fb8 // indirect
 	golang.org/x/mod v0.20.0 // indirect
 	golang.org/x/net v0.28.0 // indirect
-	golang.org/x/oauth2 v0.23.0 // indirect
+	golang.org/x/oauth2 v0.24.0 // indirect
 	golang.org/x/sync v0.10.0 // indirect
 	golang.org/x/sys v0.28.0 // indirect
 	golang.org/x/term v0.27.0 // indirect
