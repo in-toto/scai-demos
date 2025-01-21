@@ -6,6 +6,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 
 	"github.com/in-toto/scai-demos/scai-gen/pkg/fileio"
@@ -156,7 +157,7 @@ func checkEvidence(_ *cobra.Command, args []string) error {
 		return fmt.Errorf("failed read evidence files in directory %s: %w", evidenceDir, err)
 	}
 
-	if statement.GetPredicateType() != "https://in-toto.io/attestation/scai/attribute-report/v0.2" {
+	if !isSupportedPredicateType(statement.GetPredicateType()) {
 		return fmt.Errorf("evidence checking only supported for SCAI attestations")
 	}
 
@@ -281,4 +282,19 @@ func getAllEvidenceFiles(evidenceDir string) (map[string][]byte, error) {
 	}
 
 	return evidenceMap, nil
+}
+
+func isSupportedPredicateType(predicateType string) bool {
+	supportedTypes := []string{"attribute-report/v0.2", "v0.3"}
+
+	// TODO: a future version of the scai Go package will have a const for this URI
+	version, found := strings.CutPrefix(predicateType, "https://in-toto.io/attestation/scai/")
+
+	if found {
+		idx := slices.IndexFunc(supportedTypes, func(v string) bool {
+			return v == version
+		})
+		return idx > -1
+	}
+	return false
 }
