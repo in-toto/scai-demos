@@ -316,8 +316,8 @@ github.com/golang/protobuf v1.5.4 h1:i7eJL8qZTpSEXOPTxNKhASYpMn+8e5Q6AdndVa1dWek
 github.com/golang/protobuf v1.5.4/go.mod h1:lnTiLA8Wa4RWRcIUkrtSVa5nRhsEGBg48fD6rSs7xps=
 github.com/golang/snappy v0.0.4 h1:yAGX7huGHXlcLOEtBnF4w7FQwA26wojNCwOYAEhLjQM=
 github.com/golang/snappy v0.0.4/go.mod h1:/XxbfmMg8lxefKM7IXC3fBNl/7bRcc72aCRzEWrmP2Q=
-github.com/google/cel-go v0.23.2 h1:UdEe3CvQh3Nv+E/j9r1Y//WO0K0cSyD7/y0bzyLIMI4=
-github.com/google/cel-go v0.23.2/go.mod h1:52Pb6QsDbC5kvgxvZhiL9QX1oZEkcUF/ZqaPx1J5Wwo=
+github.com/google/cel-go v0.24.1 h1:jsBCtxG8mM5wiUJDSGUqU0K7Mtr3w7Eyv00rw4DiZxI=
+github.com/google/cel-go v0.24.1/go.mod h1:Hdf9TqOaTNSFQA1ybQaRqATVoK7m/zcf7IMhGXP5zI8=
 github.com/google/certificate-transparency-go v1.3.1 h1:akbcTfQg0iZlANZLn0L9xOeWtyCIdeoYhKrqi5iH3Go=
 github.com/google/certificate-transparency-go v1.3.1/go.mod h1:gg+UQlx6caKEDQ9EElFOujyxEQEfOiQzAt6782Bvi8k=
 github.com/google/gnostic-models v0.6.9-0.20230804172637-c7be7c783f49 h1:0VpGH+cDhbDtdcweoyCVsF3fhN8kejK6rFe/2FFX2nU=
