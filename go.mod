@@ -4,7 +4,7 @@ go 1.22.8
 toolchain go1.24.1
 
 require (
-	github.com/google/cel-go v0.24.1
+	github.com/google/cel-go v0.25.0
 	github.com/in-toto/attestation v1.1.1
 	github.com/in-toto/attestation-verifier v0.0.0-20231007025621-3193280f5194
 	github.com/secure-systems-lab/go-securesystemslib v0.9.0
@@ -17,7 +17,7 @@ require (
 )
 
 require (
-	cel.dev/expr v0.19.1 // indirect
+	cel.dev/expr v0.23.1 // indirect
 	cloud.google.com/go/auth v0.15.0 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.7 // indirect
 	cloud.google.com/go/compute/metadata v0.6.0 // indirect
