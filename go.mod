@@ -11,7 +11,7 @@ require (
 	github.com/sigstore/sigstore v1.9.5
 	github.com/slsa-framework/slsa-github-generator v1.10.0
 	github.com/spf13/cobra v1.9.1
-	google.golang.org/protobuf v1.36.6
+	google.golang.org/protobuf v1.36.7
 	gopkg.in/yaml.v3 v3.0.1
 )
 
