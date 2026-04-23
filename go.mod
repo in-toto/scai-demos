@@ -3,7 +3,7 @@ module github.com/in-toto/scai-demos
 go 1.25.5
 
 require (
-	github.com/google/cel-go v0.27.0
+	github.com/google/cel-go v0.28.0
 	github.com/in-toto/attestation v1.2.0
 	github.com/in-toto/attestation-verifier v0.0.0-20231007025621-3193280f5194
 	github.com/secure-systems-lab/go-securesystemslib v0.10.0
